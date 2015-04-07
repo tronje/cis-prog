@@ -2,6 +2,11 @@
  * Oliver Heidmann
  * Jorim Kornblueh
  * Tronje Krabbe
+ *
+ * Eine andere Moeglichkeit, die maximalen Werte
+ * der verschiedenen Datentypen zu ermitteln,
+ * ist die Anzahl der Bytes entsprechende zu verrechenen
+ * z.B. 2^(Anzahl Bytes) - 1
  */
 
 #include <stdio.h>
@@ -24,7 +29,12 @@ int main(void) {
     printf("int\t%d\t%u\n", 0, UINT_MAX);
     printf("long\t%d\t%lu\n", 0, ULONG_MAX);
 
-
+    printf("\n== number of bytes ==\n");
+    printf("name\tbytes\n");
+    printf("char\t%lu\n", sizeof(char));
+    printf("short\t%lu\n", sizeof(short));
+    printf("int\t%lu\n", sizeof(int));
+    printf("long\t%lu\n", sizeof(long));
 
     return 0;
 }
