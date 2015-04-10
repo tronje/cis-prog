@@ -1,7 +1,7 @@
 #ifndef SUBSETSUM_H
 #define SUBSETSUM_H
 #include <stdbool.h>
-#include "subsetsum.c"
+#include "binarySearchFirstSmallerK.c"
 /* Returns true if the ordered set of numbers <arr> of size <n> contains a
    subset with the sum of its members equal to <k>, returns false if no such
    subset exists. Elements in <mark> will be set to true for all members of
@@ -9,17 +9,15 @@
 bool subsetsum(unsigned long k,
         bool *mark,
         const unsigned long *arr,
-        unsigned long n);
-#endif
-
-bool subsetsum(unsigned long k,
-        bool *mark,
-        const unsigned long *arr,
         unsigned long n)
 {
     unsigned long rest = k;
     unsigned long nextSmallerKIndex = binarySearchFirstSmallerK(arr,rest,n);
-
+    if(arr[nextSmallerKIndex+1] == k)
+    {
+        mark[nextSmallerKIndex+1] = 1;
+        return 1;
+    }
     while(rest != 0 && nextSmallerKIndex != 0)
     {
         nextSmallerKIndex = binarySearchFirstSmallerK(arr,rest,n);
@@ -44,3 +42,4 @@ bool subsetsum(unsigned long k,
     // sollte das alles nicht funktionieren -> gehe auf den 2. niedrigsten und wiederhole den ganzen shit
     return 0;
 }
+
