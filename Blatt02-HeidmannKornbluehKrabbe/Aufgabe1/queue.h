@@ -3,13 +3,13 @@
 typedef int Queueelement;
 
 typedef struct {
-  Queueelement *queuespace;     /* the space to store the queue elements */
-  unsigned long enqueueindex,   /* points to entry into which element is to be
-                                   enqueud */
-                dequeueindex,   /* last element of queue */
-                queuesize,      /* size of the queue (max no_of_elements)*/
-                no_of_elements; /* no of elements between
-                                   enqueueindex+1 and dequeindex */
+    Queueelement *queuespace;     /* the space to store the queue elements */
+    unsigned long enqueueindex,   /* points to entry into which element is to be
+                                     enqueud */
+                  dequeueindex,   /* last element of queue */
+                  queuesize,      /* size of the queue (max no_of_elements)*/
+                  no_of_elements; /* no of elements between
+                                     enqueueindex+1 and dequeindex */
 } Queue;
 
 /* The following function delivers an empty queue with a reservoir of
@@ -27,7 +27,7 @@ void queue_double_size(Queue *q);
 void queue_enqueue(Queue *q, Queueelement elem);
 
 /* The following function removes the element elem from the start of the queue.
-   */
+*/
 Queueelement queue_dequeue(Queue *q);
 
 /* print the contents of <*q> on screen */
