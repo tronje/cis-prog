@@ -1,6 +1,7 @@
 #ifndef SUBSETSUM_H
 #define SUBSETSUM_H
 #include <stdbool.h>
+<<<<<<< HEAD
 #include <string.h>
 #include <stdio.h>
 #include "binarySearchSmallerK.c"
@@ -11,17 +12,15 @@
 bool subsetsum(unsigned long k,
         bool *mark,
         const unsigned long *arr,
-        unsigned long n);
-#endif
-
-bool subsetsum(unsigned long k,
-        bool *mark,
-        const unsigned long *arr,
         unsigned long n)
 {
     unsigned long rest = k;
     unsigned long nextSmallerKIndex = binarySearchFirstSmallerK(arr,rest,n);
-
+    if(arr[nextSmallerKIndex+1] == k)
+    {
+        mark[nextSmallerKIndex+1] = 1;
+        return 1;
+    }
     while(rest != 0 && nextSmallerKIndex != 0)
     {
         nextSmallerKIndex = binarySearchFirstSmallerK(arr,rest,n);
@@ -46,3 +45,4 @@ bool subsetsum(unsigned long k,
     // sollte das alles nicht funktionieren -> gehe auf den 2. niedrigsten und wiederhole den ganzen shit
     return true;
 }
+
