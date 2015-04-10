@@ -1,17 +1,17 @@
-.PHONY: all
-CFLAGS=-Wall -Werror -g
+.PHONY: all clean cleanup test
 
-opt?=no
-ifeq (${opt}, yes)
-  CFLAGS+= -O3
-endif
+CFLAGS+=-ggdb -Wall -Werror -Wunused-parameter -Wunused-variable
 
-all: queuetest.x
+all: subsetsum-test.x test
 
-%.o: %.c
-	${CC} ${CFLAGS} -c -o $@ $^
+subsetsum-test.x: subsetsum.o subsetsum-test.o int_conv.o
+	${CC} -o $@ $^
 
-queuetest.x: queue.o queuetest.o
-	${CC} ${CFLAGS} -o $@ $^
+clean:
+	${RM} *.o
 
-# vim:ft=make
+cleanup: clean
+	${RM} *.x
+
+test: subsetsum-test.x
+	@./test.sh | diff test.out -
