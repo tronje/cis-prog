@@ -1,7 +1,6 @@
 #ifndef SUBSETSUM_H
 #define SUBSETSUM_H
 #include <stdbool.h>
-<<<<<<< HEAD
 #include <string.h>
 #include <stdio.h>
 #include "binarySearchSmallerK.c"
