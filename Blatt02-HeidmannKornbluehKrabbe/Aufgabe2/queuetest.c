@@ -31,6 +31,7 @@ int main(int argc, char **argv)
         if (idx%3) {
             int val = (int) max * drand48();
             queue_enqueue(queue, val);
+            printf("enqueue: %d\n", val );
         }
         else {
             printf("dequed: %d\n", queue_dequeue(queue));
