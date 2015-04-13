@@ -101,9 +101,9 @@ void queue_print(const Queue *q)
 {
 	unsigned long elementsLeftToPrint = q -> no_of_elements;
 	unsigned long elementToPrintIndex = 0;;
-	unsigned long elementsInOneRow = 0;
+	//unsigned long elementsInOneRow = 0;
 
-	//unsigned long debugIndex = 0;
+	// unsigned long debugIndex = 0;
 	// puts("====Inline Start====");
 	// for(;debugIndex < q -> queuesize; debugIndex++)
 	// {
@@ -114,7 +114,7 @@ void queue_print(const Queue *q)
 	// puts("\n====================");
 
 
-	printf("Size: %lu  NoOfElements: %lu\n",q -> queuesize, q -> no_of_elements);
+	//printf("Size: %lu  NoOfElements: %lu\n",q -> queuesize, q -> no_of_elements);
 	if(q -> enqueueindex == 0)
 	{
 		elementToPrintIndex = q -> queuesize -1;
@@ -135,9 +135,8 @@ void queue_print(const Queue *q)
 		// 	puts("");
 		// 	elementsInOneRow = 0;
 		// }
-		printf("%d  ", q -> queuespace[elementToPrintIndex]);
-		elementToPrintIndex--;
-		elementsInOneRow++;
+		
+		//elementsInOneRow++;
 		if(elementToPrintIndex == 0 && elementsLeftToPrint != 1)
 		{
 			// // //printf("IF DEBUG ");
@@ -149,7 +148,12 @@ void queue_print(const Queue *q)
 			printf("%d  ", q -> queuespace[elementToPrintIndex]);
 			elementToPrintIndex = q -> queuesize - 1;
 			elementsLeftToPrint--;
-			elementsInOneRow++;
+			//elementsInOneRow++;
+		}
+		else
+		{
+			printf("%d ", q -> queuespace[elementToPrintIndex]);
+			elementToPrintIndex--;
 		}
 		//printf("LEFT: %lu\n", elementsLeftToPrint);
 	}
