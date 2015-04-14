@@ -1,3 +1,11 @@
+/*
+	Blatt02 Aufgabe2
+	Heidmann
+	Kornblueh
+	Krabbe
+*/
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -28,10 +36,6 @@ bool queue_is_empty(const Queue *q)
 
 void queue_doubble_size(Queue *q)
 {
-	
-	// puts("------------------------------\n resize \n Queue before:");
-	// queue_print(q);
-	// //puts("Memcpy");
 	Queueelement* newMemorySpace = malloc(sizeof(Queueelement) *  q -> queuesize * 2);
 	if(newMemorySpace == NULL)
 	{
@@ -48,9 +52,6 @@ void queue_doubble_size(Queue *q)
 	free(q -> queuespace);
 	q -> queuespace = newMemorySpace;
 	q -> queuesize *= 2;
-	// puts("\n resize \n Queue after:");
-	// queue_print(q);
-	// puts("--------------------------------");
 }
 
 void queue_enqueue(Queue *q, Queueelement elem)
@@ -101,20 +102,8 @@ void queue_print(const Queue *q)
 {
 	unsigned long elementsLeftToPrint = q -> no_of_elements;
 	unsigned long elementToPrintIndex = 0;;
-	//unsigned long elementsInOneRow = 0;
 
-	// unsigned long debugIndex = 0;
-	// puts("====Inline Start====");
-	// for(;debugIndex < q -> queuesize; debugIndex++)
-	// {
-	// 	if(debugIndex == q-> enqueueindex) printf("en: ");
-	// 	if(debugIndex == q-> dequeueindex) printf("de: ");
-	// 	printf("%d  ", q -> queuespace[debugIndex]);
-	// }
-	// puts("\n====================");
-
-
-	//printf("Size: %lu  NoOfElements: %lu\n",q -> queuesize, q -> no_of_elements);
+	//Setup first element to print
 	if(q -> enqueueindex == 0)
 	{
 		elementToPrintIndex = q -> queuesize -1;
@@ -123,39 +112,23 @@ void queue_print(const Queue *q)
 	{
 		elementToPrintIndex = q -> enqueueindex - 1;
 	}
-
 	
 	puts("queue=");
 	for(;elementsLeftToPrint > 0; elementsLeftToPrint--)
 	{
-		
-		
-		// if(elementsInOneRow == 9)
-		// {
-		// 	puts("");
-		// 	elementsInOneRow = 0;
-		// }
-		
-		//elementsInOneRow++;
+	/*
+		if the start of queue is reached and there is more to print
+		then print the last at before start and set index to the end
+		of the queue
+	*/
 		if(elementToPrintIndex == 0 && elementsLeftToPrint != 1)
 		{
-			// // //printf("IF DEBUG ");
-			// if(elementsInOneRow == 9)
-			// {
-			// 	puts("");
-			// 	elementsInOneRow = 0;
-			// }
 			printf("%d  ", q -> queuespace[elementToPrintIndex]);
 			elementToPrintIndex = q -> queuesize - 1;
 			elementsLeftToPrint--;
-			//elementsInOneRow++;
 		}
-		else
-		{
-			printf("%d ", q -> queuespace[elementToPrintIndex]);
-			elementToPrintIndex--;
-		}
-		//printf("LEFT: %lu\n", elementsLeftToPrint);
+		printf("%d ", q -> queuespace[elementToPrintIndex]);
+		elementToPrintIndex--;
 	}
 	puts("");
 }
