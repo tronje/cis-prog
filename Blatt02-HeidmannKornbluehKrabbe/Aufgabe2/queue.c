@@ -12,6 +12,7 @@
 #include <string.h>
 #include "queue.h"
 
+// initialises the queue and returns the pointer to the queue
 Queue *queue_new(unsigned long queuesize)
 {
 	if(queuesize == 0)
@@ -33,7 +34,15 @@ bool queue_is_empty(const Queue *q)
 	if(q->no_of_elements == 0) return true;
 	return false;
 }
+/*
+function resizes the que through copying everything form dequeindex to the end 
+to the start of the newly allocated memory block and the then copies the remaining 
+elements in the right order behind the already copied elements.
+- sets the new index values for de- and enqueueindex
+- frees the old memory block
+- sets the new memory block as Queuespace of q
 
+*/
 void queue_doubble_size(Queue *q)
 {
 	Queueelement* newMemorySpace = malloc(sizeof(Queueelement) *  q -> queuesize * 2);
@@ -56,27 +65,19 @@ void queue_doubble_size(Queue *q)
 
 void queue_enqueue(Queue *q, Queueelement elem)
 {
-	bool added = false;
-	while(added != true)
-	{
-		if(!(q -> no_of_elements == q -> queuesize))
+		if(q -> no_of_elements == q -> queuesize)
 		{
-			q -> queuespace[q->enqueueindex] = elem;
-			q -> no_of_elements++;
-			q -> enqueueindex++;
-			if(q -> enqueueindex == q -> queuesize)
-			{
-				//puts("enqueue switch");
-				q -> enqueueindex = 0;
-			}
-			added = true;
-		}
-		else
-		{
-			;
 			queue_doubble_size(q);
 		}
-	}
+		q -> queuespace[q->enqueueindex] = elem;
+		q -> no_of_elements++;
+		q -> enqueueindex++;
+		//if the element was inserted at the end of the queue
+		//set enqueueindex to the beginning of the queue
+		if(q -> enqueueindex == q -> queuesize)
+		{
+			q -> enqueueindex = 0;
+		}
 }
 
 Queueelement queue_dequeue(Queue *q)
@@ -90,7 +91,6 @@ Queueelement queue_dequeue(Queue *q)
 		q -> dequeueindex++;
 		if(q -> dequeueindex == q -> queuesize)
 		{
-			//puts("dequeue switch");
 			q -> dequeueindex = 0;
 		}
 		return result;
