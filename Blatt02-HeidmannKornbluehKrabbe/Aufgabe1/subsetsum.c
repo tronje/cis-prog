@@ -1,3 +1,22 @@
+/*
+ * Oliver Heidmann
+ * Jorim Kornblueh
+ * Tronje Krabbe
+ */
+
+/*
+ * Our solution is not quite functional yet,
+ * it seems to be working fine up until a certain
+ * size of k
+ * The test's output looks fine for the most part:
+ * "< sum of 85 128 787 is 1000"
+ * But after this point, it start too look like this:
+ * "> sum of is 787"
+ * Clearly something is wrong, but unfortunately,
+ * we have no idea why this is happening.
+ * e la vita...
+ */
+
 #include <stdbool.h>
 #include <string.h>
 #include <stdio.h>

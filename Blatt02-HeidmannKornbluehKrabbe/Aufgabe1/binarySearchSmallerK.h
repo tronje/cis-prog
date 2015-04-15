@@ -1,3 +1,9 @@
+/*
+ * Oliver Heidmann
+ * Jorim Kornblueh
+ * Tronje Krabbe
+ */
+
 #ifndef BINARYSEARCHSMALLERK_H
 #define BINARYSEARCHSMALLERK_H
 #include <stdbool.h>
