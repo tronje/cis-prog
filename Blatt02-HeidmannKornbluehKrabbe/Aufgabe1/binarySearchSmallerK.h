@@ -3,9 +3,13 @@
 #include <stdbool.h>
 #include <stdio.h>
 /* 
-	Binary search to find the next smaller entry after <k>. returns exit_success if succsesfull and exit_failure if 
+	Binary search to find the next smaller entry after <k>.
+    returns true if successfull and false if not
 */
-bool binarySearchFirstSmallerK(const unsigned long *arr, unsigned long k,unsigned long n, unsigned long* index)
+bool binarySearchFirstSmallerK(const unsigned long *arr,
+                                unsigned long k,
+                                unsigned long n,
+                                unsigned long* index)
 {
 	if(arr[0] >= k) return false;
 
