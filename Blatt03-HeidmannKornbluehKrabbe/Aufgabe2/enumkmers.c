@@ -1,3 +1,11 @@
+/*  
+	Blatt03-Aufgabe2
+	Heidmann
+	Kornblueh
+	Krabbe
+*/
+
+
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
@@ -20,34 +28,35 @@ void buildAlphabetArray(char* letterPool, unsigned lengthOfWord, unsigned strLen
 	unsigned currentPosInFinalArray = 0;
 	unsigned finalAlphabetArrayLength = pow(strLength, lengthOfWord);
 	
+	//Init memory block for final array
 	char** finalAlphabet = malloc( finalAlphabetArrayLength * sizeof(char*));
 	for(;currentCoeherentBlock < finalAlphabetArrayLength; currentCoeherentBlock++)
 	{
 		finalAlphabet[currentCoeherentBlock] = malloc(sizeof(char) * lengthOfWord);
 	}
+
 	currentCoeherentBlock = 0;
-		
+	
+	// as long as the words do not have the length we need
 	for(;currentIteration < lengthOfWord; currentIteration++)
 	{
-		//printf("____Interation: %u____\n", currentIteration );
+		// for each coeherend block
 		for(;currentCoeherentBlock < pow(strLength,currentIteration + 1); currentCoeherentBlock++)
 		{
-
-			//printf("currentCoeherentBlock%u\n",currentCoeherentBlock );
-			for(;currentPosInCoeherentBlock < finalAlphabetArrayLength/pow(strLength,currentIteration + 1); currentPosInCoeherentBlock++)
+			//each coeherend block
+			for(;
+				currentPosInCoeherentBlock < finalAlphabetArrayLength/pow(strLength,currentIteration + 1);
+			 currentPosInCoeherentBlock++)
 			{
-				//printf("Position: %u %u \n",lol, currentIteration );
+				//add the fitting letter at the end of each entry in the current block
 				finalAlphabet[currentPosInFinalArray][currentIteration] = letterPool[currentCoeherentBlock % strLength];
-				//printf("Added: %c from index: %d\n",letterPool[currentCoeherentBlock % strLength],currentCoeherentBlock % strLength);
 				currentPosInFinalArray ++;
 			}
 			currentPosInCoeherentBlock = 0;
-
 		}
 		currentPosInFinalArray = 0;
 		currentCoeherentBlock = 0;
 	}
 	printAlphabetArray(finalAlphabet,finalAlphabetArrayLength);
-
 }
 
