@@ -2,9 +2,9 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-#define ABS(x) x<0 ? -x : x;
-#define FOREACH_IN(a,b,c) for(a = b; a <= c; a++);
-#define NOT(x) !x? 1:0
+#define ABS(x) ((x)<0 ? -(x) : (x))
+#define FOREACH_IN(a,b,c) for(a = b; a <= c; a++)
+#define NOT(x) !(x)
 #define UPPER_BOUND 50
 #define LOWER_BOUND -10
 
