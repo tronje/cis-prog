@@ -9,8 +9,11 @@ all: enumkmers.x
 #
 # enumkmers.x: int_conv.o
 
-%.x: %.o
+enumkmers.x: enumkmers.o
 	${CC} -o $@ $^
+
+enumkmers.o: enumkmers.c malloc2d.h
+	${CC} ${CFLAGS} -c $<
 
 clean:
 	${RM} *.x *.o
