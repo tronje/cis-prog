@@ -1,3 +1,9 @@
+/*
+ * Heidmann
+ * Kornblueh
+ * Krabbe
+ */
+
 #include "memmanage.h"
 #include <stdlib.h>
 
