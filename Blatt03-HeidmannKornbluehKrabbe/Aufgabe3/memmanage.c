@@ -44,11 +44,17 @@ unsigned long get_index(MMspacetable *st, char *file, unsigned long line,
 
     unsigned long i;
 
+    // iterate over all elements
     for (i = 0; i < st->number; i++) {
+        // if we find what we're looking for,
+        // we can return. If not, note that
+        // i now has the value of st's capacity
         if (ptr == st->blocks[i].block)
             return i;
     }
 
+    // if the element wasn't included, and also isn't a null pointer,
+    // something went wrong
     if (ptr != NULL) {
         fprintf(stderr, "Invalid pointer! %s line %lu\n", file, line);
         exit(EXIT_FAILURE);
@@ -106,7 +112,9 @@ void *mem_man_alloc(MMspacetable *st, char *file, unsigned long line,
 void mem_man_delete_ptr(MMspacetable *st, char *file, unsigned long line,
         void *ptr) {
 
+    // find our index
     unsigned long i = get_index(st, file, line, ptr);
+
     st->blocks[i].block = NULL;
     free(st->blocks[i].block);
     free(ptr);
@@ -128,6 +136,7 @@ void mem_man_info(const MMspacetable *st) {
 void mem_man_check(const MMspacetable *st) {
     unsigned long i;
 
+    // simple iteration with some horrible printf-formatting
     for(i = 0; i < st->number; i++)
     {
         if(st->blocks[i].block != NULL)
