@@ -115,9 +115,8 @@ void mem_man_delete_ptr(MMspacetable *st, char *file, unsigned long line,
     // find our index
     unsigned long i = get_index(st, file, line, ptr);
 
-    st->blocks[i].block = NULL;
     free(st->blocks[i].block);
-    free(ptr);
+    st->blocks[i].block = NULL;
 }
 
 void mem_man_info(const MMspacetable *st) {
