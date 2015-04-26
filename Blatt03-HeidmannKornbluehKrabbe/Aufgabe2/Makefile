@@ -1,6 +1,6 @@
 .PHONY: all clean test
 CC=gcc
-CFLAGS=-Wall -Werror -Wunused-parameter -ggdb
+CFLAGS=-Wall -Werror -Wunused-parameter -ggdb -std=c11
 
 all: enumkmers.x
 
@@ -10,7 +10,7 @@ all: enumkmers.x
 # enumkmers.x: int_conv.o
 
 enumkmers.x: enumkmers.o
-	${CC} -o $@ $^
+	${CC} -lm -o $@ $^
 
 enumkmers.o: enumkmers.c malloc2d.h
 	${CC} ${CFLAGS} -c $<
