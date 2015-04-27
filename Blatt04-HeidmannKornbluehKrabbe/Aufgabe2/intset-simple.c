@@ -1,3 +1,9 @@
+/*
+ * Oliver Heidmann
+ * Jorim Kornblueh
+ * Tronje Krabbe
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
