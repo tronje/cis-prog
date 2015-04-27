@@ -48,6 +48,9 @@ void intset_add(IntSet *intset, unsigned long elem) {
     // make sure elem doesn't exceed the maximum allowed value
     assert(elem < intset->maxvalue);
 
+    // make sure elem isn't already in our intset
+    assert(!intset_is_member(intset, elem));
+
     // realloc the elements to accomodate for the new member
     intset->elements = realloc(intset->elements,
             ( (i + 1) * sizeof(unsigned long)));
@@ -67,6 +70,33 @@ bool intset_is_member(const IntSet *intset, unsigned long elem) {
     if (elem > intset->maxvalue)
         return false;
 
-    // TODO
+    // for efficiency's sake, we've declared our variables here,
+    // and not at the top of the function, because we can save
+    // the time should the if-clause catch something!
+    // we hope to be excused!
+    unsigned long first, middle, last;
+
+    first = 0;
+    last = intset->nofelements - 1;
+    middle = (first + last) / 2;
+
+    // simple little binary search
+    while (first <= last) {
+        if (intset->elements[middle] < elem) {
+            first = middle + 1;
+        } else if (intset->elements[middle] == elem) {
+            return true;
+        } else {
+            last = middle - 1;
+        }
+        middle = (first + last)/2;
+    }
+
     return false;
+}
+
+unsigned long intset_number_next_larger(const IntSet *intset,
+        unsigned long value) {
+    // we'll write something smart here soon enough
+    return 0;
 }
