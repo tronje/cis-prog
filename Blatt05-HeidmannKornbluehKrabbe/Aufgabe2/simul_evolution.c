@@ -70,10 +70,19 @@ void simulate_growth
 
     bool current_type;
     bool current_delete;
-    
+
+    FILE* fp;
+    if(filePath != NULL)
+    {
+        fp = fopen(filePath,"a");
+    }
     srand(time(NULL)); 
     for(;current_generation < max_generations; current_generation++)
     {
+        if(filePath != NULL)
+        {
+            fprintf(fp,"%u %u %u\n",current_generation,current_num_of_[dollyA], current_num_of_[dollyB]);
+        }
         for(bacteria_index = 0; bacteria_index < num_of_bacteria; bacteria_index++)
         {   
             random_Number = randomNumber(num_of_bacteria);
@@ -94,14 +103,9 @@ void simulate_growth
             {
                 if(filePath != NULL)
                 {
-                    FILE* fp = fopen(filePath,"a");
-                    fprintf(fp,"fixed:B  steps:%u\n",current_generation);
                     fclose(fp);
                 }
-                else
-                {
-                    printf("fixed:B  steps:%u\n",current_generation);
-                }
+                printf("fixed:B  steps:%u\n",current_generation);
                 free(bacteriaPool);
                 return;
             }
@@ -109,14 +113,9 @@ void simulate_growth
             {
                 if(filePath != NULL)
                 {
-                    FILE* fp = fopen(filePath,"a");
-                    fprintf(fp,"fixed:A  steps:%u\n",current_generation);
                     fclose(fp);
                 }
-                else
-                {
-                    printf("fixed:A  steps:%u\n",current_generation);
-                }
+                printf("fixed:A  steps:%u\n",current_generation);
                 free(bacteriaPool);
                 return;
             }
