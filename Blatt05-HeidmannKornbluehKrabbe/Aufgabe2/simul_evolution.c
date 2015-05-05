@@ -86,15 +86,27 @@ void simulate_growth
             {
                 if(filePath != NULL)
                 {
+                    FILE* fp = fopen(filePath,"a");
+                    fprintf(fp,"fixed:B  steps:%u\n",current_generation);
+                    fclose(fp);
                 }
-                printf("fixed:B  steps:%u\n",current_generation);
+                else
+                {
+                    printf("fixed:B  steps:%u\n",current_generation);
+                }
                 return;
             }
             if(current_num_of_[dollyB] == 0)
             {
-                printf("fixed:A  steps:%u\n",current_generation);
                 if(filePath != NULL)
                 {
+                    FILE* fp = fopen(filePath,"a");
+                    fprintf(fp,"fixed:A  steps:%u\n",current_generation);
+                    fclose(fp);
+                }
+                else
+                {
+                    printf("fixed:A  steps:%u\n",current_generation);
                 }
                 return;
             }
