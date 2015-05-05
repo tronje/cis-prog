@@ -3,21 +3,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 void tokenizer (FILE * fp,
         TokenHandlerFunc tokenhandler,
         void * data) {
 
     unsigned long file_size;
-    char ** buffer = NULL;
-    char curr_char;
-    int i, j, k;
-    int wordcount;
+    char * buffer = NULL;
+    char * curr_word = NULL;
+    int i, j;
     bool is_valid;
 
     char * valids = "abcdefghijklmnopqrstuvwxyz"
                     "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     "0123456789_";
+
+    const char * delimiter = "$";
 
     assert(fp != NULL);
 
@@ -28,41 +30,29 @@ void tokenizer (FILE * fp,
     file_size = ftell(fp);
     fseek(fp, 0L, SEEK_SET);
 
-    buffer = malloc(file_size * sizeof(char*));
-    for (i = 0; i < 100; i++) {
-        buffer[i] = malloc(100 * sizeof(char));
-        assert(buffer[i] != NULL);
-    }
+    buffer = malloc((file_size + 1) * sizeof(char*));
     assert(buffer != NULL);
 
-    wordcount = 0;
-    k = 0;
-    for (i = 0; i < file_size; i++) {
+    assert(fread(buffer, file_size, 1, fp) == 1);
+
+    for (i = 0; i <= file_size; i++) {
         is_valid = false;
-        curr_char = (char) fgetc(fp);
-        for (j = 0; j < 63; j++) {
-            if (curr_char == valids[j]) {
+        for (j = 0; j < 64; j++) {
+            if (buffer[i] == valids[j]) {
                 is_valid = true;
                 break;
             }
         }
 
-        if (is_valid) {
-            buffer[wordcount][k] = curr_char;
-            k++;
-        }
-        else {
-            wordcount++;
-            k = 0;
+        if (!is_valid) {
+            buffer[i] = 36;
         }
     }
 
-    for (i = 0; i <= wordcount; i++) {
-        tokenhandler(buffer[i], data);
-    }
+    curr_word = strtok(buffer, delimiter);
 
-    for (i = 0; i < 100; i++) {
-        free(buffer[i]);
+    while (curr_word != NULL) {
+        tokenhandler(curr_word, data);
+        curr_word = strtok(NULL, delimiter);
     }
-    free(buffer);
 }
