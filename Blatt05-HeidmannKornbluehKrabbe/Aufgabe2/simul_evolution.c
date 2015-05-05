@@ -7,6 +7,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <time.h>
+#include <unistd.h>
 void delete_population(bool* pop)
 {
     free(pop);
@@ -69,10 +70,13 @@ void simulate_growth
         {   
             random_Number = randomNumber(num_of_bacteria);
             current_type = bacteriaPool[bacteria_index];
-           // printf("%d\n",current_type);
+            //printf("%f\n",split_chance_of_[current_type]);
             current_delete = bacteriaPool[random_Number];
-            if(100.0 * split_chance_of_[current_type] < (float)(randomNumber(100)))
+            if(split_chance_of_[current_type] == 1.0
+                    ||(100.0 * split_chance_of_[current_type] > (float)(randomNumber(100)) 
+                    && split_chance_of_[current_type] != 0.0))
             {   
+            //printf("%d\n",current_type);
                 current_num_of_[current_type] += 1;
                 current_num_of_[current_delete] -= 1;
                 bacteriaPool[random_Number] = current_type;
@@ -83,12 +87,12 @@ void simulate_growth
                 if(filePath != NULL)
                 {
                 }
-                printf("fixed:A  steps:%u\n",current_generation);
+                printf("fixed:B  steps:%u\n",current_generation);
                 return;
             }
             if(current_num_of_[dollyB] == 0)
             {
-                printf("fixed:B  steps:%u\n",current_generation);
+                printf("fixed:A  steps:%u\n",current_generation);
                 if(filePath != NULL)
                 {
                 }
@@ -114,7 +118,6 @@ int main(int argc, char** argv)
     {
         filePath = argv[6];
     }
-   // printf("%f",atof(argv[2]));
     simulate_growth(
             strtol(argv[1],NULL,10),
             atof(argv[2]),
@@ -123,16 +126,5 @@ int main(int argc, char** argv)
             strtol(argv[5],NULL,10),
             filePath       
             );
-    int lol[2];
-    lol[0] = 12;
-    lol[1] = 11;
-    printf("entered parameters: %ld %f %ld %f %ld %s\n",strtol(argv[1],NULL,10),
-            atof(argv[2]),
-            strtol(argv[3],NULL,10),
-            atof(argv[4]),
-            strtol(argv[5],NULL,10),
-            filePath)
-;
-    printf("lol0: %d    lol1: %d",lol[dollyA],lol[dollyB]);
     return 1;
 }
