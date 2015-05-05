@@ -1,8 +1,15 @@
+/*
+ * Oliver Heidmann
+ * Jorim Kornblueh
+ * Tronje Krabbe
+ */
 #include "tokenizer.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
 
+// our tokenhandler is called "printer" because that's
+// pretty much all it does.
 static void printer(const char * token, void * data) {
     if (token == NULL)
         return;
