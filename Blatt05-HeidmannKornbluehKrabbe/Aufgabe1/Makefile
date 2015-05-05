@@ -1,4 +1,5 @@
 .PHONY: clean cleanup test
+CC = gcc
 CFLAGS=-g -Wall -Werror -O3 -Wunused-parameter
 
 all: enumwords.x

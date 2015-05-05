@@ -28,10 +28,12 @@ void tokenizer (FILE * fp,
     file_size = ftell(fp);
     fseek(fp, 0L, SEEK_SET);
 
-    buffer = malloc(file_size * sizeof(char));
+    buffer = malloc(file_size * sizeof(char*));
+    for (i = 0; i < 100; i++) {
+        buffer[i] = malloc(100 * sizeof(char));
+        assert(buffer[i] != NULL);
+    }
     assert(buffer != NULL);
-
-    assert(fread(buffer, sizeof(char), file_size, fp) == file_size);
 
     wordcount = 0;
     k = 0;
@@ -59,4 +61,8 @@ void tokenizer (FILE * fp,
         tokenhandler(buffer[i], data);
     }
 
+    for (i = 0; i < 100; i++) {
+        free(buffer[i]);
+    }
+    free(buffer);
 }
