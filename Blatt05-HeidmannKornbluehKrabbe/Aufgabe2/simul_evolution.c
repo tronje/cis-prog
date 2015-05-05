@@ -1,6 +1,14 @@
+/*
+ * Oliver Heidmann,
+ * Tronje Krabbe,
+ * Jorim Kornblueh
+ *
+ * 
+ */
+
 #define dollyA  false
 #define dollyB  true
-#define randomNumber(x)  rand() % x + 1
+#define randomNumber(x)  rand() % x
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -94,6 +102,7 @@ void simulate_growth
                 {
                     printf("fixed:B  steps:%u\n",current_generation);
                 }
+                free(bacteriaPool);
                 return;
             }
             if(current_num_of_[dollyB] == 0)
@@ -108,12 +117,14 @@ void simulate_growth
                 {
                     printf("fixed:A  steps:%u\n",current_generation);
                 }
+                free(bacteriaPool);
                 return;
             }
         }
     }
     printf("simulation stopped after %u steps (A: %u B:%u)\n",
             current_generation, current_num_of_[dollyA], current_num_of_[dollyB]);
+                free(bacteriaPool);
             return;
 
 }
