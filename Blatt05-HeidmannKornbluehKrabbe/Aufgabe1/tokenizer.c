@@ -64,14 +64,7 @@ void tokenizer (FILE * fp,
 
         // if it's not, we'll just replace it with our delimiter
         if (!is_valid) {
-            // NOTE: 36 is ascii for $
-            // using "$" here gave annoying warnings because
-            // we'd be casting a string to a char or something
-            // we are aware that this is messy, but we're also
-            // tired and it should work fine on any system because
-            // ascii is ascii.
-            // *fingers crossed*
-            buffer[i] = 36;
+            buffer[i] = '$';
         }
     }
 
