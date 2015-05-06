@@ -126,8 +126,6 @@ void simulate_growth(unsigned int num_of_dollyA,
     printf("simulation stopped after %u steps (A: %u B:%u)\n",
             current_generation, current_num_of_[dollyA], current_num_of_[dollyB]);
     free(bacteriaPool);
-    return;
-
 }
 
 int main(int argc, char** argv)
