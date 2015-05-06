@@ -2,8 +2,6 @@
  * Oliver Heidmann,
  * Tronje Krabbe,
  * Jorim Kornblueh
- *
- * 
  */
 
 #define dollyA  false
@@ -16,25 +14,28 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
+
 void delete_population(bool* pop)
 {
+    if (pop == NULL)
+        exit(EXIT_FAILURE);
+
     free(pop);
 }
 
-bool* create_new_population
-        (
-        unsigned int num_of_dollyA,
-        unsigned int num_of_dollyB
-        )
+bool* create_new_population(unsigned int num_of_dollyA,
+                            unsigned int num_of_dollyB)
 {
     unsigned int index = 0;
-    bool* new_bacteriaPool =  malloc(sizeof(bool) * (num_of_dollyA + num_of_dollyB));
+    bool* new_bacteriaPool =  malloc(sizeof(bool) *
+                            (num_of_dollyA + num_of_dollyB));
     if(new_bacteriaPool == NULL)
     {
-        puts("Error while allocating memory block bacteriaPool: file: simu_evolution");
+        puts("Error while allocating memory block bacteriaPool:"
+                " file: simu_evolution");
         return 0;
     }
-    
+
     for(;index < num_of_dollyA;index++)
     {
         new_bacteriaPool[index] = false;
@@ -46,15 +47,12 @@ bool* create_new_population
     return new_bacteriaPool;
 }
 
-void simulate_growth
-        (
-        unsigned int num_of_dollyA,
-        float pA,
-        unsigned int num_of_dollyB,
-        float pB,
-        unsigned int max_generations,
-        char* filePath
-        )
+void simulate_growth(unsigned int num_of_dollyA,
+                     float pA,
+                     unsigned int num_of_dollyB,
+                     float pB,
+                     unsigned int max_generations,
+                     char* filePath)
 {
     bool *bacteriaPool = create_new_population(num_of_dollyA,num_of_dollyB);
     unsigned int num_of_bacteria = num_of_dollyA + num_of_dollyB;
@@ -81,7 +79,10 @@ void simulate_growth
     {
         if(filePath != NULL)
         {
-            fprintf(fp,"%u %u %u\n",current_generation,current_num_of_[dollyA], current_num_of_[dollyB]);
+            fprintf(fp,"%u %u %u\n",
+                    current_generation,
+                    current_num_of_[dollyA],
+                    current_num_of_[dollyB]);
         }
         for(bacteria_index = 0; bacteria_index < num_of_bacteria; bacteria_index++)
         {   
@@ -90,15 +91,16 @@ void simulate_growth
             //printf("%f\n",split_chance_of_[current_type]);
             current_delete = bacteriaPool[random_Number];
             if(split_chance_of_[current_type] == 1.0
-                    ||(100.0 * split_chance_of_[current_type] > (float)(randomNumber(100)) 
-                    && split_chance_of_[current_type] != 0.0))
+                    ||(100.0 * split_chance_of_[current_type]
+                        > (float)(randomNumber(100)) 
+                        && split_chance_of_[current_type] != 0.0))
             {   
-            //printf("%d\n",current_type);
+                //printf("%d\n",current_type);
                 current_num_of_[current_type] += 1;
                 current_num_of_[current_delete] -= 1;
                 bacteriaPool[random_Number] = current_type;
             }
-        
+
             if(current_num_of_[dollyA] == 0)
             {
                 if(filePath != NULL)
@@ -123,8 +125,8 @@ void simulate_growth
     }
     printf("simulation stopped after %u steps (A: %u B:%u)\n",
             current_generation, current_num_of_[dollyA], current_num_of_[dollyB]);
-                free(bacteriaPool);
-            return;
+    free(bacteriaPool);
+    return;
 
 }
 
