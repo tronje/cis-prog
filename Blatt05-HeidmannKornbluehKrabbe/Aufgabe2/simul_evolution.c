@@ -31,9 +31,9 @@ bool* create_new_population(unsigned int num_of_dollyA,
                             (num_of_dollyA + num_of_dollyB));
     if(new_bacteriaPool == NULL)
     {
-        puts("Error while allocating memory block bacteriaPool:"
-                " file: simu_evolution");
-        return 0;
+        fprintf(stderr, "Error while allocating memory block"
+                "bacteriaPool: file: simu_evolution");
+        exit(EXIT_FAILURE);
     }
 
     for(;index < num_of_dollyA;index++)
@@ -133,9 +133,9 @@ void simulate_growth(unsigned int num_of_dollyA,
 int main(int argc, char** argv)
 {
     char* filePath = NULL;
-    if(argc > 7 || argc <= 1)
+    if(argc > 7 || argc < 6)
     {
-        puts("Error to many or to few arguments");
+        fprintf(stderr, "Error: too many or too few arguments");
         return EXIT_FAILURE;
     }
     if(argc == 7)
@@ -150,5 +150,5 @@ int main(int argc, char** argv)
             strtol(argv[5],NULL,10),
             filePath       
             );
-    return 1;
+    return EXIT_SUCCESS;
 }
