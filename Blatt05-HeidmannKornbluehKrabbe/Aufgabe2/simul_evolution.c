@@ -59,12 +59,12 @@ void simulate_growth(unsigned int num_of_dollyA,
     unsigned int current_generation = 0;
     unsigned int bacteria_index = 0;
     unsigned int current_num_of_[2];
+    float split_chance_of_[2];
+    unsigned int random_Number;
     current_num_of_[dollyA] = num_of_dollyA;
     current_num_of_[dollyB] = num_of_dollyB;
-    float split_chance_of_[2];
     split_chance_of_[dollyA] = pA;
     split_chance_of_[dollyB] = pB;
-    unsigned int random_Number;
 
     bool current_type;
     bool current_delete;
@@ -88,14 +88,10 @@ void simulate_growth(unsigned int num_of_dollyA,
         {   
             random_Number = randomNumber(num_of_bacteria);
             current_type = bacteriaPool[bacteria_index];
-            //printf("%f\n",split_chance_of_[current_type]);
             current_delete = bacteriaPool[random_Number];
-            if(split_chance_of_[current_type] == 1.0
-                    ||(100.0 * split_chance_of_[current_type]
-                        > (float)(randomNumber(100)) 
-                        && split_chance_of_[current_type] != 0.0))
-            {   
-                //printf("%d\n",current_type);
+            if(100.0 * split_chance_of_[current_type]
+                        > (float)(randomNumber(100))) 
+            { 
                 current_num_of_[current_type] += 1;
                 current_num_of_[current_delete] -= 1;
                 bacteriaPool[random_Number] = current_type;
@@ -124,7 +120,10 @@ void simulate_growth(unsigned int num_of_dollyA,
         }
     }
     printf("simulation stopped after %u steps (A: %u B:%u)\n",
-            current_generation, current_num_of_[dollyA], current_num_of_[dollyB]);
+            current_generation,
+            current_num_of_[dollyA],
+            current_num_of_[dollyB]);
+    fclose(fp);
     free(bacteriaPool);
 }
 
