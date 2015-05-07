@@ -69,7 +69,7 @@ void simulate_growth(unsigned int num_of_dollyA,
     bool current_type;
     bool current_delete;
 
-    FILE* fp;
+    FILE* fp = NULL;
     if(filePath != NULL)
     {
         fp = fopen(filePath,"a");
@@ -125,7 +125,10 @@ void simulate_growth(unsigned int num_of_dollyA,
             current_generation,
             current_num_of_[dollyA],
             current_num_of_[dollyB]);
-    fclose(fp);
+    if(fp != NULL)
+    {
+        fclose(fp);
+    }
     free(bacteriaPool);
 }
 
