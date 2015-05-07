@@ -84,7 +84,9 @@ void simulate_growth(unsigned int num_of_dollyA,
                     current_num_of_[dollyA],
                     current_num_of_[dollyB]);
         }
-        for(bacteria_index = 0; bacteria_index < num_of_bacteria; bacteria_index++)
+        for(bacteria_index = 0;
+            bacteria_index < num_of_bacteria;
+            bacteria_index++)
         {   
             random_Number = randomNumber(num_of_bacteria);
             current_type = bacteriaPool[bacteria_index];
