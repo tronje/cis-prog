@@ -30,5 +30,8 @@ int main(int argc, char ** argv) {
     assert(fp != NULL);
 
     tokenizer(fp, printer, NULL);
+
+    fclose(fp);
+
     return EXIT_SUCCESS;
 }

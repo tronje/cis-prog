@@ -79,4 +79,5 @@ void tokenizer (FILE * fp,
         // but it's intentional
         curr_word = strtok(NULL, delimiter);
     }
+    free(buffer);
 }
