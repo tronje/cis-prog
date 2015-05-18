@@ -42,6 +42,7 @@ IntSet *intset_new(unsigned long maxvalue, unsigned long nofelements) {
     ret->sectionstart[0] = 0;
     ret->maxvalue = maxvalue;
     ret->capacity = nofelements;
+    ret->nofelements = 0;
 
     return ret;
 }
@@ -49,18 +50,28 @@ IntSet *intset_new(unsigned long maxvalue, unsigned long nofelements) {
 /* Returns the size needed to store <nofelements> integers smaller equal
    <maxvalue> */
 size_t intset_size(unsigned long maxvalue, unsigned long nofelements) {
-
+    return (sizeof(IntSet) + (maxvalue/d+1) * sizeof(unsigned long)
+            + nofelements * sizeof(uint16_t));
 }
 
 /* Free the memory of <intset> */
 void intset_delete(IntSet *intset) {
-
+    // a simple if-clause might be smarter, because
+    // then the program won't terminate if a non-existent
+    // intset is given.
+    assert(intset != NULL);
+    free(intset->elements);
+    free(intset->sectionstart);
+    free(intset);
 }
 
 /* Add <elem> to <intset>. Fails if <elem> is larger <maxvalue> or <intset>
    already contains <nofelements> elements. */
 void intset_add(IntSet *intset, unsigned long elem) {
-
+    assert(elem <= intset->maxvalue);
+    assert(intset->nofelements < intset->capacity);
+    if (intset->nofelements > 0)
+        assert(elem > intset->elements[intset->nofelements - 1]);
 }
 
 /* True if <elem> is stored in <intset> */

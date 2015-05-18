@@ -4,8 +4,7 @@
 #define CHECK(p) \
     if((p) == NULL) \
 { \
-      perror("Error in %s, line %d)", \
-                        __FILE__, __LINE__); \
+      perror("The following error has occured"); \
       exit(EXIT_FAILURE); \
 }
 
