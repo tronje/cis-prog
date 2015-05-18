@@ -113,5 +113,12 @@ unsigned long intset_number_next_larger(const IntSet *intset,
 
 /* Print out the <intset> to stdout */
 void intset_pretty(const IntSet *intset) {
+    unsigned long i, q = 0;
 
+    for (; i < intset->nofelements; i++) {
+        while (q < intset->greatest / d && i == intset->sectionstart[q+1])
+            q++;
+
+        printf("[%lu] %lu\n", i, d * q + intset->elements[i]);
+    }
 }
