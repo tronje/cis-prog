@@ -29,6 +29,7 @@ IntSet *intset_new(unsigned long maxvalue, unsigned long nofelements) {
     // sets contain only unique elements
     assert(nofelements <= maxvalue);
 
+    // allocate what we need
     IntSet * ret;
     ret = malloc(sizeof(IntSet));
     CHECK(ret);
@@ -40,9 +41,10 @@ IntSet *intset_new(unsigned long maxvalue, unsigned long nofelements) {
     ret->elements = malloc(sizeof(uint16_t) * nofelements);
     CHECK(ret->elements);
 
+    // initialize values
     ret->sectionstart[0] = 0;
     ret->maxvalue = maxvalue;
-    ret->capacity = nofelements;
+    ret->capacity = nofelements; // so unintuitive
     ret->nofelements = 0;
     ret->greatest = 0;
 
@@ -97,25 +99,69 @@ void intset_add(IntSet *intset, unsigned long elem) {
     intset->greatest = elem;
 }
 
+// handy dandy binary search now as it's own function
+static bool bin_search(const IntSet *s, unsigned long elem,
+        unsigned long first, unsigned long last)
+{
+    unsigned long middle;
+    
+    while (first <= last) {
+        // equivalent to (first + last)/2 but save from overflows
+        middle = first + ((last - first) / 2);
+
+        if (s->elements[middle] > elem) {
+            if (middle == 0)
+                return false;
+
+            last = middle - 1;
+        }
+        else if(s->elements[middle] < elem) {
+            if(middle >= s->capacity)
+                return false;
+
+            first = middle + 1;
+        }
+        else {
+            return true;
+        }
+    }
+    return false;
+}
+
 /* True if <elem> is stored in <intset> */
 bool intset_is_member(const IntSet *intset, unsigned long elem) {
+    uint16_t r = (uint16_t) elem % d;
+    unsigned long q = elem >> 16;
+    unsigned long greatest = intset->greatest;
+    unsigned long greatest_q = greatest >> 16;
 
+    if (elem > greatest) {
+        return false;
+    }
+    else if(q == greatest_q) {
+        return bin_search(
+                intset, r, intset->sectionstart[q], intset->nofelements - 1);
+    }
+    else {
+        return bin_search(
+                intset, r, intset->sectionstart[q], intset->sectionstart[q+1] - 1);
+    }
 }
 
 /* Return the index/number (0 based) of the smallest element that is larger then
    <value> from <intset> or <nofelements> if there is no such element.
    Fails if <pos> is member of <intset> */
 unsigned long intset_number_next_larger(const IntSet *intset,
-                                        unsigned long pos)
+        unsigned long pos)
 {
-
+    return 0l;
 }
 
 /* Print out the <intset> to stdout */
 void intset_pretty(const IntSet *intset) {
     unsigned long i, q = 0;
 
-    for (; i < intset->nofelements; i++) {
+    for (i = 0; i < intset->nofelements; i++) {
         while (q < intset->greatest / d && i == intset->sectionstart[q+1])
             q++;
 
