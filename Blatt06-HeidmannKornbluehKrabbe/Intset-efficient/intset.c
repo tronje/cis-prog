@@ -18,6 +18,7 @@ struct IntSet {
     unsigned long maxvalue;
     unsigned long nofelements;
     unsigned long capacity;
+    unsigned long greatest;
     uint16_t * elements; // residual values
     unsigned long * sectionstart;
 };
@@ -43,6 +44,7 @@ IntSet *intset_new(unsigned long maxvalue, unsigned long nofelements) {
     ret->maxvalue = maxvalue;
     ret->capacity = nofelements;
     ret->nofelements = 0;
+    ret->greatest = 0;
 
     return ret;
 }
@@ -68,10 +70,31 @@ void intset_delete(IntSet *intset) {
 /* Add <elem> to <intset>. Fails if <elem> is larger <maxvalue> or <intset>
    already contains <nofelements> elements. */
 void intset_add(IntSet *intset, unsigned long elem) {
+    unsigned long i;
+    uint16_t r = (uint16_t) elem % d;
+    unsigned long q = elem >> 16;
+    unsigned long greatest = intset->greatest;
+    unsigned long greatest_q = greatest >> 16;
+
+    // typical asserts
     assert(elem <= intset->maxvalue);
     assert(intset->nofelements < intset->capacity);
     if (intset->nofelements > 0)
-        assert(elem > intset->elements[intset->nofelements - 1]);
+        assert(elem > greatest);
+
+    // start a new section if needed
+    if (q > greatest_q) {
+        intset->sectionstart[q] = intset->nofelements;
+        // ... and initialize it
+        for (i = greatest_q + 1; i < q; i++) {
+            intset->sectionstart[i] = intset->nofelements;
+        }
+    }
+
+    // add stuff
+    intset->elements[intset->nofelements] = r;
+    intset->nofelements++;
+    intset->greatest = elem;
 }
 
 /* True if <elem> is stored in <intset> */
