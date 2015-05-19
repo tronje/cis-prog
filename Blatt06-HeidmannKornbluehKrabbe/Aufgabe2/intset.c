@@ -140,11 +140,11 @@ bool intset_is_member(const IntSet *intset, unsigned long elem) {
     }
     else if(q == greatest_q) {
         return bin_search(
-                intset, r, intset->sectionstart[q], intset->nofelements - 1);
+	    intset, r, intset->sectionstart[q], intset->nofelements - 1);
     }
     else {
         return bin_search(
-                intset, r, intset->sectionstart[q], intset->sectionstart[q+1] - 1);
+	    intset, r, intset->sectionstart[q], intset->sectionstart[q+1] - 1);
     }
 }
 
@@ -152,9 +152,51 @@ bool intset_is_member(const IntSet *intset, unsigned long elem) {
    <value> from <intset> or <nofelements> if there is no such element.
    Fails if <pos> is member of <intset> */
 unsigned long intset_number_next_larger(const IntSet *intset,
-        unsigned long pos)
+        unsigned long value)
 {
-    return 0l;
+    unsigned long middle, first, last;
+    unsigned long q = value >> 16;
+    unsigned long greatest = intset->greatest;
+    unsigned long greatest_q = greatest >> 16;
+    //value = value % d;
+    if(q == greatest_q)
+    {
+	first = intset->sectionstart[q];
+	last = intset->nofelements;
+    }
+    else
+    {
+	first = intset->sectionstart[q];
+	last = intset->sectionstart[q+1];
+    }
+    fprintf(stderr, "first : %lu last : %lu fval : %hu %hu %lu\n", first, last,
+	    intset->elements[first], intset->elements[last], value);
+
+    if(value < intset->elements[first])
+    {
+	return first;
+    }
+    
+    assert(!intset_is_member(intset, value));
+    
+    
+    if(q > greatest_q)
+    {
+	return intset->nofelements;
+    }
+    while(first < last-1)
+    {
+	middle = ((first + last) / 2);
+	if(intset->elements[middle] > value)
+	{
+	    last = middle;
+	}
+	else
+	{
+	    first = middle;
+	}
+    }
+    return last;
 }
 
 /* Print out the <intset> to stdout */
