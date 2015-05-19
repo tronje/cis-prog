@@ -154,6 +154,10 @@ bool intset_is_member(const IntSet *intset, unsigned long elem) {
 unsigned long intset_number_next_larger(const IntSet *intset,
         unsigned long value)
 {
+    /*
+      Due to problems with value beeing bigger than 2^16-1 (65535) we where not 
+      able to finish this task
+     */
     unsigned long middle, first, last;
     unsigned long q = value >> 16;
     unsigned long greatest = intset->greatest;
