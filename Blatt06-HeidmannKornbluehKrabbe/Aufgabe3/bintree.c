@@ -35,7 +35,7 @@ GenBinTree *gbt_new(Cmpfunction cmp_node_value,
     GenBinTree* newTree;
     BinTreeNode* newRoot;
 
-
+    //Init for the new GenBinTree and its root
     newTree = malloc(sizeof(GenBinTree));
     newRoot = malloc(sizeof(BinTreeNode));
     assert(newTree != NULL);
@@ -49,6 +49,7 @@ GenBinTree *gbt_new(Cmpfunction cmp_node_value,
     newTree -> combine_node_value = combine_node_value;
     newTree -> free_node_value = free_node_value;
     newTree -> no_of_elements = 0;
+
     return newTree;
 }
 
@@ -58,8 +59,9 @@ bool gbt_add(GenBinTree *bintree, void *new_value)
   BinTreeNode* parentNode = bintree -> t_root;
   int cmpResult;
   int currentSide = 0;
-  printf("newValue = %d\n",*new_value);
+  //printf("newValue = %d\n",*new_value);
 
+  // if there is nothing in the tree yet set the value for root
   if(bintree -> t_root -> value == NULL)
   {
   	bintree -> t_root -> value = new_value;
@@ -67,27 +69,37 @@ bool gbt_add(GenBinTree *bintree, void *new_value)
   	return true;
   }
 
+  // as long we havent reached the end of the subtree in which new value
+  // is to be inserted
   while(currentNode != NULL)
   {
+  	//compute new value is to be insertet in left or right subtree
   	cmpResult = bintree -> cmp_node_value(currentNode -> value,new_value);
+    //left subtree
     if(cmpResult < 0)
     {
       parentNode = currentNode;
       currentNode = currentNode -> left;
+      //set last choosen subtree to left
       currentSide = 0;
     }
+    //right subtree
     else if(cmpResult > 0)
     {
       parentNode = currentNode;
       currentNode = currentNode -> right;
+      //set last choosen subtree to right
       currentSide  = 1;
     }
     else
     {
-      //printf("same value already in tree\n");
+      //If value was already in the tree
+      printf("same value already in tree\n");
       return false;
     }
   }
+
+  //when leaf is reached initialise new Node
   if(currentSide == 1)
   {
     parentNode -> right  = malloc(sizeof(BinTreeNode));
