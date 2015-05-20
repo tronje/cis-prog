@@ -8,6 +8,8 @@
 #define PARENT 0
 #define CHILD 1
 
+typedef struct BinTreeNode BinTreeNode;
+
 struct BinTreeNode {
   void *value;
   BinTreeNode *left,
@@ -58,7 +60,7 @@ bool gbt_add(GenBinTree *bintree, void *new_value)
   BinTreeNode* parentNode = bintree -> t_root;
   int cmpResult;
   int currentSide = 0;
-  printf("newValue = %d\n",*new_value);
+  //printf("newValue = %d\n",*new_value);
 
   if(bintree -> t_root -> value == NULL)
   {
