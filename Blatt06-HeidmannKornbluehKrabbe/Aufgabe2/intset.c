@@ -158,7 +158,9 @@ unsigned long intset_number_next_larger(const IntSet *intset,
       Due to problems with value beeing bigger than 2^16-1 (65535) we where not 
       able to finish this task
      */
+    
     unsigned long middle, first, last;
+    unsigned long nofelements;
     unsigned long q = value >> 16;
     unsigned long greatest = intset->greatest;
     unsigned long greatest_q = greatest >> 16;
@@ -166,12 +168,14 @@ unsigned long intset_number_next_larger(const IntSet *intset,
     if(q == greatest_q)
     {
 	first = intset->sectionstart[q];
-	last = intset->nofelements;
+	last = intset->nofelements-1;
+	nofelements = (last - first)-1;
     }
     else
     {
 	first = intset->sectionstart[q];
-	last = intset->sectionstart[q+1];
+	last = intset->sectionstart[q+1]-1;
+	nofelements = (last - first)-1;
     }
     fprintf(stderr, "first : %lu last : %lu fval : %hu %hu %lu\n", first, last,
 	    intset->elements[first], intset->elements[last], value);
@@ -181,12 +185,13 @@ unsigned long intset_number_next_larger(const IntSet *intset,
 	return first;
     }
     
-    assert(!intset_is_member(intset, value));
+    /// assert(!intset_is_member(intset, value));
     
     
-    if(q > greatest_q)
+    if(value > intset->elements[last])
     {
-	return intset->nofelements;
+	return last+1;
+	//return intset->nofelements;
     }
     while(first < last-1)
     {
