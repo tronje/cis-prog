@@ -9,7 +9,9 @@ ifdef opt
 CFLAGS+= -O3
 endif
 
-sorting.x: sorting.o sorting_main.o int_conv.o
+#										why?!
+# sorting.x: sorting.o sorting_main.o int_conv.o
+sorting.x: sorting.o sorting_main.o
 	${CC} ${LDFLAGS} $^ -o $@
 
 clean:
