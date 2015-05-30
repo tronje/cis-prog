@@ -22,6 +22,14 @@ void insertionsort(unsigned int *values, unsigned long nofelements) {
 }
 
 void countingsort(unsigned int *values, unsigned long nofelements) {
+    // k should be equal to the largest element in values.
+    // Unfortunately, we can't be sure of this value.
+    // We could, since we first sort with insertion sort,
+    // pass this value to counting sort, but then counting sort
+    // could not be called individually. Using UINT_MAX
+    // the memory allocation fails on my machine, as I imagine
+    // it will on others. The solution is to use the same value as defined
+    // in the macro in sorting_main, and to hope it will remain unchanged.
     unsigned int k = 1000000;//UINT_MAX;
     unsigned int * count = NULL;
     unsigned int * output = NULL; // we're not very space efficient
@@ -30,13 +38,6 @@ void countingsort(unsigned int *values, unsigned long nofelements) {
     // allocate count variable and initialize with zeroes
     count = calloc(k, sizeof(unsigned long));
     if (count == NULL) {
-        // TODO
-        // hier geht was schief weil k zu gross ist
-        // aber man braucht fuer counting sort
-        // ein array bei dem der groesste index gleich
-        // dem groessten element in values ist
-        // da wir values nicht kennen, muss UINT_MAX genommen werden
-        // dafuer reicht aber der speicher bei mir nicht...
         perror("Error in sorting.c");
         exit(EXIT_FAILURE);
     }
