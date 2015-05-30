@@ -22,7 +22,7 @@ void insertionsort(unsigned int *values, unsigned long nofelements) {
 }
 
 void countingsort(unsigned int *values, unsigned long nofelements) {
-    unsigned int k = UINT_MAX;
+    unsigned int k = 1000000;//UINT_MAX;
     unsigned int * count = NULL;
     unsigned int * output = NULL; // we're not very space efficient
     unsigned int i, old_count, total;

@@ -59,6 +59,10 @@ int main(int argc, char ** argv) {
             fprintf(stderr, "Arrays aren't equal after sorting!\n");
             return EXIT_FAILURE;
         }
+        //if (counting_values[i] < counting_values[i-1]) {
+        //    fprintf(stderr, "Array not sorted properly!\n");
+        //    return EXIT_FAILURE;
+        //}
     }
     
     return EXIT_SUCCESS;
