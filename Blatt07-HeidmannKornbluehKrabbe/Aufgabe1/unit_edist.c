@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "threads_dp-unit_edist.h"
+#include "unit_edist.h"
 
 unsigned long eval_unit_edist(const unsigned char *u,
                               unsigned long m,

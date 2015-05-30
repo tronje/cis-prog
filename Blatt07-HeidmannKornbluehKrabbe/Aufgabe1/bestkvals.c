@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "threads_dp-bestkvals.h"
+#include "bestkvals.h"
 
 /*
    This file implements the datatype <BestKVals>.
