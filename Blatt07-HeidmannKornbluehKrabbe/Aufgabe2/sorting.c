@@ -1,3 +1,8 @@
+/*
+ * Heidmann
+ * Kornblueh
+ * Krabbe
+ */
 #include <stdlib.h>
 #include <stdio.h>
 #include <limits.h>

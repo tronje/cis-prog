@@ -2,7 +2,7 @@
 # choose one:
 #CC=clang
 CC=gcc
-CFLAGS=-Wall -Werror -g -Wunused
+CFLAGS=-Wall -Werror -g -Wunused -lm -O3
 LDFLAGS=-lm
 
 ifdef opt
