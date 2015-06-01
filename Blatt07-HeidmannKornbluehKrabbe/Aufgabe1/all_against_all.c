@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main()
+int main(int argc, char**argv)
 {
 	Multiseq* multiseq;
 	char* file_content;
@@ -12,9 +12,39 @@ int main()
   unsigned char* sequence;
   unsigned char* info;
   unsigned long size;
+  unsigned int threads;
+  unsigned int k;
 	FILE* pfile;
 
-	pfile = fopen("sw175.fna","r");
+
+
+  if(argc != 4)
+  {
+    printf("ERROR: There are %d arguments but there should be 3\n",argc - 1);
+    return EXIT_FAILURE;
+  }
+
+  threads = atoi(argv[2]);
+  k = atoi(argv[1]);
+  
+  if(threads < 1)
+  {
+    printf("ERROR: number of threads cant be smaller than 1\n");
+    return EXIT_FAILURE;
+  }
+
+  if(k < 1)
+  {
+    printf("ERROR: k cant be smaller than 1\n");
+    return EXIT_FAILURE;
+  }
+
+	pfile = fopen(argv[3],"r");
+  if(pfile == NULL)
+  {
+    printf("ERROR: File could not be read from \"%s\"\n",argv[3]);
+    return EXIT_FAILURE;
+  }
 	fseek(pfile,0L,SEEK_END);
 	file_size = ftell(pfile);
 	rewind(pfile);
