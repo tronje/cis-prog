@@ -45,30 +45,45 @@ int main(int argc, char**argv)
     printf("ERROR: File could not be read from \"%s\"\n",argv[3]);
     return EXIT_FAILURE;
   }
+
+  //Get filesize
 	fseek(pfile,0L,SEEK_END);
 	file_size = ftell(pfile);
 	rewind(pfile);
 
 	file_content = malloc(sizeof(char) * file_size + 1);
 	if(file_content == NULL) return EXIT_FAILURE;
+
+  //Write the data form file into file_content
 	fread(file_content,sizeof(char*),file_size,pfile);
 
+  //TODO: get number of sequences form file. Then use it for gen_new
+  multiseq =  gen_new_multiseq(175);
+
+  //Get the first sequence
 	info = (unsigned char*)strtok(file_content,">\n");
   sequence = (unsigned char*)strtok(NULL,">\n");
   size = strlen((char*)sequence);
-  multiseq =  gen_new_multiseq(175);
+  
+
+  //As long as there are further unprocesses sequences
   while (info != NULL)
 	{
+    // add the current sequence to multiseq
  		multiseq_add_sequence(multiseq,sequence,info,size);
-   	info = (unsigned char*)strtok (NULL,">\n");   				
+    //set new info for next seq
+   	info = (unsigned char*)strtok (NULL,">\n");
+    // if info is null there are no more sequences 				
   	if(info != NULL)
 		{
-    	// puts("=========================");
-			// printf("%s\n",info );
+    	//DEBUG//puts("=========================");
+			//DEBUG//printf("%s\n",info );
+      //set new sequence for next seq
   		sequence = (unsigned char*)strtok(NULL,">\n");
-   		// printf("%s\n",sequence );
+   		//DEBUG// printf("%s\n",sequence );
+      //get the length of the string 
   		size = strlen((char*)sequence);
-  		// printf("%lu\n", size);
+  		//DEBUG printf("%lu\n", size);
   	}
 
   		
@@ -83,6 +98,7 @@ int main(int argc, char**argv)
   printf("%s\n",multiseq -> sequence_infos[2] );
   printf("%s\n",multiseq -> sequences[2] );
   unsigned long result = 0;
+
 	eval_unit_edist(
 	  multiseq -> sequences[3],
 		multiseq -> sizes_of_sequence[3],
