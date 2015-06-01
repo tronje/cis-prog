@@ -9,9 +9,9 @@ int main()
 	Multiseq* multiseq;
 	char* file_content;
 	unsigned long file_size;
-  unsigned char* sequence
-  unsigned char* info
-  unsigned long size
+  unsigned char* sequence;
+  unsigned char* info;
+  unsigned long size;
 	FILE* pfile;
 
 	pfile = fopen("sw175.fna","r");
