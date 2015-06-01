@@ -8,6 +8,8 @@
 #define PARENT 0
 #define CHILD 1
 
+typedef struct BinTreeNode BinTreeNode;
+
 struct BinTreeNode {
   void *value;
   BinTreeNode *left,
