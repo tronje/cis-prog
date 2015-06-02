@@ -6,7 +6,6 @@
 
 Multiseq* gen_new_multiseq(unsigned int size)
 {
-<<<<<<< HEAD
 	Multiseq* new_multiseq = malloc(size * (sizeof(char**) + sizeof(char**) + sizeof(unsigned int*)));
 	if(new_multiseq == NULL) exit( EXIT_FAILURE );
 	
