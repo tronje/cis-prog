@@ -96,12 +96,12 @@ int main(int argc, char**argv)
     // puts("=========================");
     // puts("=========================");
     puts("ANOTHER TEST");
-    printf("%s\n",multiseq -> sequence_infos[3] );
-    printf("%s\n",multiseq -> sequences[3] );
-    printf("%ld\n",multiseq -> sizes_of_sequence[3] );
+    printf("%s\n",multiseq -> sequence_infos[3]);
+    printf("%s\n",multiseq -> sequences[3]);
+    printf("%ld\n",multiseq -> sizes_of_sequence[3]);
     //multiseq = multiseq_new();
-    printf("%s\n",multiseq -> sequence_infos[2] );
-    printf("%s\n",multiseq -> sequences[2] );
+    printf("%s\n",multiseq -> sequence_infos[2]);
+    printf("%s\n",multiseq -> sequences[2]);
 
     eval_unit_edist(
             multiseq -> sequences[3],
