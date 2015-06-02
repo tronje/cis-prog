@@ -1,20 +1,34 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 #include "multiseq.h"
 
 
 Multiseq* gen_new_multiseq(unsigned int size)
 {
-	Multiseq* new_multiseq = malloc(size * (sizeof(char**) + sizeof(char**) + sizeof(unsigned int*)));
-	if(new_multiseq == NULL) exit( EXIT_FAILURE );
-	new_multiseq -> sequences = malloc(sizeof(char*) * size);
-	if(new_multiseq -> sequences == NULL) exit( EXIT_FAILURE );
+	//Multiseq* new_multiseq = malloc(size * (sizeof(char**) + sizeof(char**) + sizeof(unsigned int*)));
+	Multiseq* new_multiseq = malloc(sizeof(Multiseq));
+	if (new_multiseq == NULL) {
+        perror("Error in multiseq.c, line 10");
+        exit( EXIT_FAILURE );
+    }
+	new_multiseq->sequences = malloc(sizeof(char*) * size);
+	if (new_multiseq->sequences == NULL) {
+        perror("Error in multiseq.c, line 15");
+        exit( EXIT_FAILURE );
+    }
 	new_multiseq -> sequence_infos = malloc(sizeof(char*) * size);
-	if(new_multiseq -> sequence_infos== NULL) exit( EXIT_FAILURE );
-	new_multiseq -> sizes_of_sequence =  malloc(sizeof(unsigned int) * size);
-		if(new_multiseq -> sizes_of_sequence == NULL) exit( EXIT_FAILURE );
-	new_multiseq -> size = size;
-	new_multiseq -> next_free_space = 0;
+	if (new_multiseq -> sequence_infos == NULL) {
+        perror("Error in multiseq.c, line 20");
+        exit( EXIT_FAILURE );
+    }
+    new_multiseq -> sizes_of_sequence = malloc(sizeof(unsigned int) * size);
+    if (new_multiseq -> sizes_of_sequence == NULL) {
+        perror("Error in multiseq.c, line 25");
+        exit( EXIT_FAILURE );
+    }
+    new_multiseq -> size = size;
+    new_multiseq -> next_free_space = 0;
 	new_multiseq -> current_entrys = 0;
 
 	return new_multiseq;
@@ -25,6 +39,10 @@ void resize_multiseq(Multiseq* seq)
 	seq -> sequences = realloc(seq -> sequences, seq -> size * 2 * sizeof(char**));
 	seq -> sequence_infos = realloc(seq -> sequence_infos, seq -> size * 2 * sizeof(char**));
 	seq -> sizes_of_sequence = realloc(seq -> sizes_of_sequence,seq -> size * 2 * sizeof(unsigned int));
+    if (seq->sequences == NULL || seq->sequence_infos == NULL || seq->sizes_of_sequence == NULL) {
+        perror("Error in multiseq.c, lines 39-41");
+        exit(EXIT_FAILURE);
+    }
 }
 
 void multiseq_add_sequence(Multiseq* seq,unsigned char* sequence,unsigned char* sequence_info,unsigned long size)

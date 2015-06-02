@@ -1,7 +1,9 @@
 .PHONY:clean test cleanup
 CFLAGS=-g -O3 -Wall -Werror -Wunused-parameter -Wpointer-arith 
 LDFLAGS=-lm -pthread
-CC?=clang
+# pick one
+#CC=clang
+CC=gcc
 
 SEQFILE=sw175.fna
 
