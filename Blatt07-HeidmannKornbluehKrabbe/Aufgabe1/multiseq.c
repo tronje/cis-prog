@@ -7,12 +7,16 @@ Multiseq* gen_new_multiseq(unsigned int size)
 {
 	Multiseq* new_multiseq = malloc(size * (sizeof(char**) + sizeof(char**) + sizeof(unsigned int*)));
 	if(new_multiseq == NULL) exit( EXIT_FAILURE );
-	new_multiseq -> sequences = malloc(sizeof(char*) * size);
+	
+	new_multiseq -> sequences = (unsigned char**)malloc(sizeof(char*) * size);
 	if(new_multiseq -> sequences == NULL) exit( EXIT_FAILURE );
-	new_multiseq -> sequence_infos = malloc(sizeof(char*) * size);
+	
+	new_multiseq -> sequence_infos = (unsigned char**)malloc(sizeof(char*) * size);
 	if(new_multiseq -> sequence_infos== NULL) exit( EXIT_FAILURE );
-	new_multiseq -> sizes_of_sequence =  malloc(sizeof(unsigned int) * size);
-		if(new_multiseq -> sizes_of_sequence == NULL) exit( EXIT_FAILURE );
+	
+	new_multiseq -> sizes_of_sequence =  malloc(sizeof(unsigned long) * size);
+	if(new_multiseq -> sizes_of_sequence == NULL) exit( EXIT_FAILURE );
+	
 	new_multiseq -> size = size;
 	new_multiseq -> next_free_space = 0;
 	new_multiseq -> current_entrys = 0;

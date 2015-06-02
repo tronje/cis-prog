@@ -8,7 +8,7 @@ unsigned long eval_unit_edist(const unsigned char *u,
 {
   unsigned long val, we, nw, *ecol, *ecolptr;
   const unsigned char *uptr, *vptr;
-
+  
   ecol = (unsigned long *) malloc(sizeof *ecol * (m+1));
   for (*ecol = 0, ecolptr = ecol+1, uptr = u; uptr < u + m; ecolptr++, uptr++)
   {

@@ -39,7 +39,7 @@ int main(int argc, char**argv)
     return EXIT_FAILURE;
   }
 
-	pfile = fopen(argv[3],"r");
+	pfile = fopen(argv[3],"rb");
   if(pfile == NULL)
   {
     printf("ERROR: File could not be read from \"%s\"\n",argv[3]);
@@ -49,9 +49,10 @@ int main(int argc, char**argv)
   //Get filesize
 	fseek(pfile,0L,SEEK_END);
 	file_size = ftell(pfile);
+  printf("FILESIZE: %lu\n", file_size);
 	rewind(pfile);
 
-	file_content = malloc(sizeof(char) * file_size + 1);
+	file_content = malloc(sizeof(char*) * file_size + 2);
 	if(file_content == NULL) return EXIT_FAILURE;
 
   //Write the data form file into file_content
@@ -95,15 +96,17 @@ int main(int argc, char**argv)
  	printf("%s\n",multiseq -> sequences[3] );
  	printf("%ld\n",multiseq -> sizes_of_sequence[3] );
 	//multiseq = multiseq_new();
-  printf("%s\n",multiseq -> sequence_infos[2] );
-  printf("%s\n",multiseq -> sequences[2] );
+  printf("%s\n",multiseq -> sequence_infos[50] );
+  printf("%s\n",multiseq -> sequences[50] );
+  printf("%lu\n",multiseq -> sizes_of_sequence[50] );
   unsigned long result = 0;
-
-	eval_unit_edist(
+  printf("SIZE of 3: %lu\n",multiseq->sizes_of_sequence[3]);
+  printf("SIZE of 2: %lu\n",multiseq->sizes_of_sequence[50]);
+	result = eval_unit_edist(
 	  multiseq -> sequences[3],
 		multiseq -> sizes_of_sequence[3],
-		multiseq -> sequences[2],
-		multiseq -> sizes_of_sequence[2]
+		multiseq -> sequences[50],
+		multiseq -> sizes_of_sequence[50]
   );
 	printf("==========makeresult: %lu\n",result );
 	return EXIT_SUCCESS;
