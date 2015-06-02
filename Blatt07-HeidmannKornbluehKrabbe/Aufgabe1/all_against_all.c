@@ -112,4 +112,4 @@ int main(int argc, char**argv)
     printf("==========makeresult: %lu\n",result );
     return EXIT_SUCCESS;
 }
->>>>>>> c5cca63cac7d97d3c31a234ed6c8b63009552388
+
