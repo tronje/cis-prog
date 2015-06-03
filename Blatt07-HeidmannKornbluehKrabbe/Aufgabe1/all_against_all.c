@@ -62,7 +62,7 @@ int main(int argc, char**argv)
     //Write the data form file into file_content
     fread(file_content,sizeof(char*),file_size,pfile);
 
-    //TODO: get number of sequences from file. Then use it for gen_new
+    //TODO: get number of sequences form file. Then use it for gen_new
     multiseq =  gen_new_multiseq(175);
 
     //Get the first sequence
@@ -71,7 +71,7 @@ int main(int argc, char**argv)
     size = strlen((char*)sequence);
 
 
-    //As long as there are further unprocessed sequences
+    //As long as there are further unprocesses sequences
     while (info != NULL)
     {
         // add the current sequence to multiseq
@@ -120,17 +120,21 @@ struct pthread_range_data
     unsigned long range;
 }
 
-void eval_seqrange(Multiseq seq)
+BestKVals eval_seqrange(Multiseq seq, unsigned int t, unsigned long k)
 {
     int index;
     int rest;
     int default_range;
     int next_start = 0;
     int next_end = 0;
+    int rc;
+    pthread_t threads[NUM_THREADS];
+    BestKVals* bestKVals;
     pthread_range_data* range_data;
 
-    rest = n % t;
-    default_range = n / t;
+    bestKVals = best_k_vals_new(k,compare_dist,sizeof(unsigned long));
+    rest = seq -> sizes_of_sequence % t;
+    default_range = seq -> sizes_of_sequence / t;
 
     for(index = 0; index < t; index++)
     {
@@ -148,9 +152,16 @@ void eval_seqrange(Multiseq seq)
 
         next_start += range_data -> range;
         rest--;
+        rc = pthread_crate(&threads[t],NULL,bestKVals);
     }
     return;
 
+}
+int compare_dist(unsigned long a, unsigned long b)
+{
+    if(a < b) return -1;
+    if(a > b) return 1;
+    return 0;
 }
 
 }
