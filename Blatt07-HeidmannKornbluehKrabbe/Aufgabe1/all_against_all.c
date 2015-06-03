@@ -112,4 +112,50 @@ int main(int argc, char**argv)
     printf("==========makeresult: %lu\n",result );
     return EXIT_SUCCESS;
 }
+typedef struct pthread_range_data pthread_range_data;
 
+struct pthread_range_data
+{
+    unsigned long start;
+    unsigned long range;
+}
+
+void eval_seqrange(Multiseq seq)
+{
+    int index;
+    int rest;
+    int default_range;
+    int next_start = 0;
+    int next_end = 0;
+    pthread_range_data* range_data;
+
+    rest = n % t;
+    default_range = n / t;
+
+    for(index = 0; index < t; index++)
+    {
+        range_data -> start = next_start;
+        if(rest > 0)
+        {
+            range_data -> range = default_range + 1;             
+        }
+        else
+        {
+            range_data -> range = default_range;
+        }
+        printf("Start of t %d: %d\n",index,next_start);
+        printf("range of t %d: %d\n\n",index,range_data -> range);
+
+        next_start += range_data -> range;
+        rest--;
+    }
+    return;
+
+}
+
+}
+// n anzahl sequenzen
+// k anzahl von ergebnissen
+// i 
+// j 
+//
