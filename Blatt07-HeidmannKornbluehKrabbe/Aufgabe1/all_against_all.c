@@ -1,13 +1,24 @@
 #include "multiseq.h"
 #include "string.h"
 #include "unit_edist.h"
+#include "bestkvals.h"
+#include "all_against_all.h"
+
+#include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
+int compare_dist(unsigned long a, unsigned long b)
+{
+    if(a < b) return -1;
+    if(a > b) return 1;
+    return 0;
+}
 
 int main(int argc, char**argv)
 {
     Multiseq* multiseq;
+    BestKVals* bestKVals;
     char* file_content = NULL;
     unsigned long file_size;
     unsigned char* sequence = NULL;
@@ -17,8 +28,6 @@ int main(int argc, char**argv)
     unsigned int threads;
     unsigned int k;
     FILE* pfile = NULL;
-
-
 
     if(argc != 4)
     {
@@ -47,6 +56,10 @@ int main(int argc, char**argv)
         printf("ERROR: File could not be read from \"%s\"\n",argv[3]);
         return EXIT_FAILURE;
     }
+
+    bestKVals = best_k_vals_new(k
+        ,(void*)compare_dist,
+        sizeof(unsigned long));
 
     //Get filesize
     fseek(pfile,0L,SEEK_END);
@@ -110,61 +123,74 @@ int main(int argc, char**argv)
             multiseq -> sizes_of_sequence[2]
             );
     printf("==========makeresult: %lu\n",result );
+    eval_seqrange(multiseq,t,k,bestkvals);
     return EXIT_SUCCESS;
 }
-typedef struct pthread_range_data pthread_range_data;
 
-struct pthread_range_data
-{
-    unsigned long start;
-    unsigned long range;
-}
 
-BestKVals eval_seqrange(Multiseq seq, unsigned int t, unsigned long k)
+void eval_seqrange(Multiseq* seq,
+    unsigned long t,
+    unsigned long k,
+    BestKVals* bestkvals)
 {
     int index;
     int rest;
     int default_range;
     int next_start = 0;
-    int next_end = 0;
     int rc;
-    pthread_t threads[NUM_THREADS];
-    BestKVals* bestKVals;
-    pthread_range_data* range_data;
-
-    bestKVals = best_k_vals_new(k,compare_dist,sizeof(unsigned long));
-    rest = seq -> sizes_of_sequence % t;
-    default_range = seq -> sizes_of_sequence / t;
+    pthread_t threads[t];
+    
+    Thread_data* thread_data = malloc(sizeof(Thread_data));
+    thread_data -> bestkvals = bestkvals;
+    thread_data -> seq = seq;
+    rest = seq -> current_entrys % t;
+    default_range = seq -> current_entrys / t;
 
     for(index = 0; index < t; index++)
     {
-        range_data -> start = next_start;
+        thread_data -> start = next_start;
         if(rest > 0)
         {
-            range_data -> range = default_range + 1;             
+            thread_data -> range = default_range + 1;             
         }
         else
         {
-            range_data -> range = default_range;
+            thread_data -> range = default_range;
         }
         printf("Start of t %d: %d\n",index,next_start);
-        printf("range of t %d: %d\n\n",index,range_data -> range);
+        printf("range of t %d: %lu\n\n",index,thread_data -> range);
 
-        next_start += range_data -> range;
+        next_start += thread_data -> range;
         rest--;
-        rc = pthread_crate(&threads[t],NULL,bestKVals);
+        rc = pthread_create(&threads[t],
+            NULL,
+            insert_seqs_into_bestkval,
+            &thread_data);
+        if (rc) 
+        {
+            printf("ERROR; return code from pthread_create() is %d\n", rc);
+            exit(EXIT_FAILURE);
+        }
     }
     return;
 
 }
-int compare_dist(unsigned long a, unsigned long b)
+
+void* insert_seqs_into_bestkval(void* thread_data)
 {
-    if(a < b) return -1;
-    if(a > b) return 1;
-    return 0;
+    unsigned long index = 0;
+    unsigned long start = ((Thread_data*)thread_data) -> start;
+    BestKVals* bestkvals = ((Thread_data*)thread_data) -> bestkvals;
+    Multiseq* seq = ((Thread_data*)thread_data) -> seq;
+    for(;index < ((Thread_data*)thread_data) -> range;index++)
+    {
+        best_k_vals_insert(bestkvals,seq->sequences[start]);
+        start++;
+    }
+    pthread_exit(NULL);
 }
 
-}
+
 // n anzahl sequenzen
 // k anzahl von ergebnissen
 // i 
