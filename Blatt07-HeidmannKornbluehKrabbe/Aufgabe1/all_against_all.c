@@ -1,3 +1,14 @@
+/* Kornblueh, Krabbe, Heidmann 
+    leider funktioniert das programm nicht. es wird anscheinen nichts in
+    bestkval reingeschrieben.
+    Zudem is ein logikfehler vorhanden in dem wir versuchen in bestkval
+    die sequenzen einzufuegen ohne dass wir einen vergleich mit udist machen
+    
+    Auf grund terminlicher Probleme konnten wir die Aufgabe leider nicht fertig
+    stellen.
+*/
+
+
 #include "multiseq.h"
 #include "string.h"
 #include "unit_edist.h"
@@ -28,7 +39,10 @@ int main(int argc, char**argv)
     unsigned int threads;
     unsigned int k;
     unsigned int nlines;
+    int i = 0;
+    unsigned long value;
     char c;
+
     FILE* pfile = NULL;
 
     if(argc != 4)
@@ -62,6 +76,10 @@ int main(int argc, char**argv)
     bestKVals = best_k_vals_new(k
         ,(void*)compare_dist,
         sizeof(unsigned long));
+    if(bestKVals == NULL)
+    {
+        printf("GUCJASPOOFDAHSJdp\n" );
+    }
 
     //Get filesize
     fseek(pfile,0L,SEEK_END);
@@ -79,7 +97,7 @@ int main(int argc, char**argv)
 
     // calculate number of lines
     nlines = 0;
-rewind(pfile);
+    rewind(pfile);
     do {
         c = fgetc(pfile);
         if (c == '\n')
@@ -140,11 +158,11 @@ rewind(pfile);
             );
     printf("==========makeresult: %lu\n",result );
     eval_seqrange(multiseq,threads,bestKVals);
-    int i = 0;
-    unsigned long value;
+    
     puts("GO");
     for(; i < k; i++)
     {
+        printf(" ===:I:%d\n",i );
         value = (unsigned long)best_k_vals_next(bestKVals);
         printf("%lu\n",value);
     }
@@ -212,10 +230,3 @@ void* insert_seqs_into_bestkval(void* thread_data)
     }
     pthread_exit(NULL);
 }
-
-
-// n anzahl sequenzen
-// k anzahl von ergebnissen
-// i 
-// j 
-//
