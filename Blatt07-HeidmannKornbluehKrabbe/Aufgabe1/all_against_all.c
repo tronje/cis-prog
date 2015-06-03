@@ -79,7 +79,7 @@ int main(int argc, char**argv)
 
     // calculate number of lines
     nlines = 0;
-
+rewind(pfile);
     do {
         c = fgetc(pfile);
         if (c == '\n')
@@ -140,6 +140,15 @@ int main(int argc, char**argv)
             );
     printf("==========makeresult: %lu\n",result );
     eval_seqrange(multiseq,threads,bestKVals);
+    int i = 0;
+    unsigned long value;
+    puts("GO");
+    for(; i < k; i++)
+    {
+        value = (unsigned long)best_k_vals_next(bestKVals);
+        printf("%lu\n",value);
+    }
+    puts("END");
     return EXIT_SUCCESS;
 }
 
