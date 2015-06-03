@@ -62,7 +62,7 @@ int main(int argc, char**argv)
     //Write the data form file into file_content
     fread(file_content,sizeof(char*),file_size,pfile);
 
-    //TODO: get number of sequences form file. Then use it for gen_new
+    //TODO: get number of sequences from file. Then use it for gen_new
     multiseq =  gen_new_multiseq(175);
 
     //Get the first sequence
@@ -71,7 +71,7 @@ int main(int argc, char**argv)
     size = strlen((char*)sequence);
 
 
-    //As long as there are further unprocesses sequences
+    //As long as there are further unprocessed sequences
     while (info != NULL)
     {
         // add the current sequence to multiseq
