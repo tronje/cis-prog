@@ -16,6 +16,8 @@ int main(int argc, char**argv)
     unsigned long result = 0;
     unsigned int threads;
     unsigned int k;
+    unsigned int nlines;
+    char c;
     FILE* pfile = NULL;
 
 
@@ -62,8 +64,22 @@ int main(int argc, char**argv)
     //Write the data form file into file_content
     fread(file_content,sizeof(char*),file_size,pfile);
 
-    //TODO: get number of sequences form file. Then use it for gen_new
-    multiseq =  gen_new_multiseq(175);
+    // calculate number of lines
+    nlines = 0;
+
+    do {
+        c = fgetc(pfile);
+        if (c == '\n')
+            nlines++;
+    } while(c != EOF);
+
+    if (c != '\n' && nlines != 0)
+        nlines++;
+
+    fclose(pfile);
+
+    // number of lines divided by 2 is the number of sequences
+    multiseq =  gen_new_multiseq(nlines / 2);
 
     //Get the first sequence
     info = (unsigned char*)strtok(file_content,">\n");
@@ -118,7 +134,7 @@ struct pthread_range_data
 {
     unsigned long start;
     unsigned long range;
-}
+};
 
 BestKVals eval_seqrange(Multiseq seq, unsigned int t, unsigned long k)
 {
