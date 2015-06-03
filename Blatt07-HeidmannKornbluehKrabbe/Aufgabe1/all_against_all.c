@@ -124,13 +124,13 @@ int main(int argc, char**argv)
     }
     // puts("=========================");
     // puts("=========================");
-    puts("ANOTHER TEST");
-    printf("%s\n",multiseq -> sequence_infos[3]);
-    printf("%s\n",multiseq -> sequences[3]);
-    printf("%ld\n",multiseq -> sizes_of_sequence[3]);
-    //multiseq = multiseq_new();
-    printf("%s\n",multiseq -> sequence_infos[2]);
-    printf("%s\n",multiseq -> sequences[2]);
+    // puts("ANOTHER TEST");
+    // printf("%s\n",multiseq -> sequence_infos[3]);
+    // printf("%s\n",multiseq -> sequences[3]);
+    // printf("%ld\n",multiseq -> sizes_of_sequence[3]);
+    // //multiseq = multiseq_new();
+    // printf("%s\n",multiseq -> sequence_infos[2]);
+    // printf("%s\n",multiseq -> sequences[2]);
 
     eval_unit_edist(
             multiseq -> sequences[3],
@@ -139,13 +139,12 @@ int main(int argc, char**argv)
             multiseq -> sizes_of_sequence[2]
             );
     printf("==========makeresult: %lu\n",result );
-    eval_seqrange(multiseq,t,k,bestkvals);
+    eval_seqrange(multiseq,threads,bestKVals);
     return EXIT_SUCCESS;
 }
 
 void eval_seqrange(Multiseq* seq,
     unsigned long t,
-    unsigned long k,
     BestKVals* bestkvals)
 {
     int index;
