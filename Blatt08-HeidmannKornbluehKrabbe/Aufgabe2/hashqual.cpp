@@ -1,3 +1,8 @@
+/*
+ * Heidmann
+ * Kornblueh
+ * Krabbe
+ */
 #include "hashqual-functions.h"
 #include "tokenizer.hpp"
 #include <iostream>
