@@ -34,7 +34,7 @@ with open(filename, 'r') as data_file:
         elif 'E(intermolecular)' in line:
             energy = float(findall('\d+.\d+', line)[0])
             energies.append(energy)
-        elif 'molecule' in line and 'yes' in line:
+        elif 'molecule' and 'yes' in line:
             out_of_range[n_of_runs] += 1
 
 # we used numpy earlier, but it felt like cheating
