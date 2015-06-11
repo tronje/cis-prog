@@ -1,8 +1,11 @@
 #!/bin/env python3
+'''
+Heidmann
+Kornblueh
+Krabbe
+'''
 
 from re import findall
-from numpy import mean
-from numpy import std
 
 filename = 'Messwerte.txt'
 
@@ -34,21 +37,49 @@ with open(filename, 'r') as data_file:
         elif 'molecule' in line and 'yes' in line:
             out_of_range[n_of_runs] += 1
 
-# calculate and print all relevant information
+# we used numpy earlier, but it felt like cheating
+# so we defined our own functions for mean and
+# standard deviation.
+def mean(l):
+    ''' Returns the arithmetic mean
+        for a list of numbers.'''
+    return sum(l)/len(l)
+
+def std(l, mean):
+    ''' Returns the standard deviation
+        for a list of numbers.'''
+    ret = 0
+    for e in l:
+        ret += (e - mean) ** 2
+    return (ret / len(l)) ** (0.5)
+
+#calculate relevant information for printing later
+temp_mean = mean(temperatures)
+press_mean = mean(pressures)
+en_mean = mean(energies)
+oor_mean = mean(out_of_range)
+
+temp_std = std(temperatures, temp_mean)
+press_std = std(pressures, press_mean)
+en_std = std(energies, en_mean)
+oor_std = std(out_of_range, oor_mean)
+
+# print all relevant information
+# we felt like 4 decimal places were sensible
 print("=== Ergebnisse ===")
-print(" - Temperatur:", str(mean(temperatures)),\
-        "+/-", str(std(temperatures)))
+print(" - Temperatur:", "%.4f" % temp_mean,\
+        "+/-", "%.4f" % temp_std)
 print("   Wertebereich:",  str(min(temperatures)),\
         "-", str(max(temperatures)))
-print(" - Druck:", str(mean(pressures)),\
-        "+/-", str(std(pressures)))
+print(" - Druck:", "%.4f" % press_mean,\
+        "+/-", "%.4f" % press_std)
 print("   Wertebereich:", str(min(pressures)),\
         "-", str(max(pressures)))
-print(" - intermolekulare Energie:", str(mean(energies)),\
-        "+/-", str(std(energies)))
+print(" - intermolekulare Energie:", "%.4f" % en_mean,\
+        "+/-", "%.4f" % en_std)
 print("   Wertebereich:", str(min(energies)),\
         "-", str(max(energies)))
-print(" - Molekuele ausser Reichweite:", str(mean(out_of_range)),\
-        "+/-", str(std(out_of_range)))
+print(" - Molekuele ausser Reichweite:", "%.4f" % oor_mean,\
+        "+/-", "%.4f" % oor_std)
 print("   Wertebereich:", str(min(out_of_range)),\
         "-", str(max(out_of_range)))
