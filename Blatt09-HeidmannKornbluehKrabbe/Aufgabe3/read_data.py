@@ -41,7 +41,7 @@ print(" - Temperatur:", str(mean(temperatures)),\
 print("   Wertebereich:",  str(min(temperatures)),\
         "-", str(max(temperatures)))
 print(" - Druck:", str(mean(pressures)),\
-        "+/-", str(std(temperatures)))
+        "+/-", str(std(pressures)))
 print("   Wertebereich:", str(min(pressures)),\
         "-", str(max(pressures)))
 print(" - intermolekulare Energie:", str(mean(energies)),\
