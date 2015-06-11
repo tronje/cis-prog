@@ -33,7 +33,10 @@ result hashqual(str_set words, Hashfunction hash_func)
     }
 
     last = *hashs.begin();
-    for(et = ++(hashs.begin()); et != hashs.end(); et++)
+    // original:
+    // for(et = ++(hashs.begin()); et != hashs.end(); et++)
+    // fixed:
+    for(et = ++(hashs.begin()); et != ++(hashs.end()); et++)
     {
 	if(*et == last)
 	{
