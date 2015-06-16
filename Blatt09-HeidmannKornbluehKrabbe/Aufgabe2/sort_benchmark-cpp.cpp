@@ -1,6 +1,24 @@
-#include <iostream>
+/*
+ * Heidmann
+ * Kornblueh
+ * Krabbe
+ */
+
+/*
+$ ./sort_benchmark-c.x
+Runtime (hh:mm:ss:us)    00:00:00:069270
+
+$ ./sort_benchmark-cpp.x
+Runtime (hh:mm:ss:us)   00:00:10:457269
+
+Das C++ Programm ist ca. um einen Faktor 150
+langsamer, was beunruhigend ist, da C++'s std::sort()
+angeblich zweimal so schnell ist wie C's qsort().
+Dies liegt daran, dass qsort() immer noch eine Funktion
+ruft, während der Vergleich bei std::sort() eingebaut ist.
+Aber wir sehen keinen Fehler in unserem Port.
+*/
 #include <stdio.h>
-#include <assert.h>
 #include <stdlib.h>
 #include <sys/time.h>
 #include <vector>
@@ -9,10 +27,6 @@
 #define NUMVALUES (1 << 20)
 /* 128 */
 #define NUMSORTS (1 << 7)
-
-static int compare(int a, int b) {
-    return a - b;
-}
 
 static int timeval_subtract(struct timeval *result,
                             struct timeval *x,
@@ -48,7 +62,6 @@ static int timeval_add(struct timeval *result,
 
 int main(void)
 {
-    //int *values = malloc(NUMVALUES * sizeof (*values));
     std::vector<int> values(NUMVALUES);
     unsigned long idx, sortnum;
     struct timeval start, end, diff, tmp, runtime = {0,0};
@@ -58,8 +71,7 @@ int main(void)
             values[idx] = rand();
         }
         (void) gettimeofday(&start, NULL);
-        //qsort(values, sizeof(*values), NUMVALUES, compare);
-        std::sort(values.begin(), values.end(), compare);
+        std::sort(values.begin(), values.end());
         (void) gettimeofday(&end, NULL);
         (void) timeval_subtract(&diff, &end, &start);
         tmp = runtime;
@@ -77,6 +89,5 @@ int main(void)
             runtime.tv_sec % 60LU,
             runtime.tv_usec);
 
-    //free(values);
     return 0;
 }
