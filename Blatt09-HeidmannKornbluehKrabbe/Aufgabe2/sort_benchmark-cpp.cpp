@@ -17,6 +17,9 @@ angeblich zweimal so schnell ist wie C's qsort().
 Dies liegt daran, dass qsort() immer noch eine Funktion
 ruft, während der Vergleich bei std::sort() eingebaut ist.
 Aber wir sehen keinen Fehler in unserem Port.
+Es liegt nicht an std::vector, da wir mit std::array
+die gleiche Laufzeit haben. Scheinbar ist std::sort()
+aus irgendeinem Grund bei uns langsamer...
 */
 #include <stdio.h>
 #include <stdlib.h>
