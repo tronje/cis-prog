@@ -20,6 +20,8 @@ Aber wir sehen keinen Fehler in unserem Port.
 Es liegt nicht an std::vector, da wir mit std::array
 die gleiche Laufzeit haben. Scheinbar ist std::sort()
 aus irgendeinem Grund bei uns langsamer...
+Interessanterweise ist das Array nach sort_benchmark-c.x
+nicht sortiert. Irgendwelche komischen Dinge passieren hier.
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -84,6 +86,10 @@ int main(void)
            (runtime.tv_sec / 60LU) % 60LU,
            runtime.tv_sec % 60LU,
            runtime.tv_usec); */
+    }
+
+    for (idx = 0; idx < NUMVALUES; idx++) {
+        printf("%d\n", values[idx]);
     }
 
     printf("Runtime (hh:mm:ss:us)\t%02lu:%02lu:%02lu:%06lu\n",
