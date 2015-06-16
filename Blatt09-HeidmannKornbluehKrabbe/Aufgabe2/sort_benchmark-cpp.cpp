@@ -82,10 +82,6 @@ int main(void)
            runtime.tv_usec); */
     }
 
-    for (idx = 0; idx < NUMVALUES; idx++) {
-        printf("%d\n", values[idx]);
-    }
-
     printf("Runtime (hh:mm:ss:us)\t%02lu:%02lu:%02lu:%06lu\n",
             runtime.tv_sec / 60LU / 60LU,
             (runtime.tv_sec / 60LU) % 60LU,
