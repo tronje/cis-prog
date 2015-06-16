@@ -6,22 +6,16 @@
 
 /*
 $ ./sort_benchmark-c.x
-Runtime (hh:mm:ss:us)    00:00:00:069270
+Runtime (hh:mm:ss:us)   00:00:17:528965
 
 $ ./sort_benchmark-cpp.x
 Runtime (hh:mm:ss:us)   00:00:10:457269
 
-Das C++ Programm ist ca. um einen Faktor 150
-langsamer, was beunruhigend ist, da C++'s std::sort()
-angeblich zweimal so schnell ist wie C's qsort().
-Dies liegt daran, dass qsort() immer noch eine Funktion
-ruft, während der Vergleich bei std::sort() eingebaut ist.
-Aber wir sehen keinen Fehler in unserem Port.
-Es liegt nicht an std::vector, da wir mit std::array
-die gleiche Laufzeit haben. Scheinbar ist std::sort()
-aus irgendeinem Grund bei uns langsamer...
-Interessanterweise ist das Array nach sort_benchmark-c.x
-nicht sortiert. Irgendwelche komischen Dinge passieren hier.
+Das C++ Programm ist etwa 1.7 mal so schnell wie das
+C Programm. Dies liegt wahrscheinlich daran, dass
+std::sort keine separate Funktion aufruft, qsort
+jedoch bei jedem Vergleich zweier Elemente die compare
+Funktion rufen muss.
 */
 #include <stdio.h>
 #include <stdlib.h>

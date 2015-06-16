@@ -56,7 +56,8 @@ int main(void)
       values[idx] = rand();
     }
     (void) gettimeofday(&start, NULL);
-    qsort(values, sizeof(*values), NUMVALUES, compare);
+    //qsort(values, sizeof(*values), NUMVALUES, compare);
+    qsort(values, NUMVALUES, sizeof(*values), compare);
     (void) gettimeofday(&end, NULL);
     (void) timeval_subtract(&diff, &end, &start);
     tmp = runtime;
