@@ -50,25 +50,26 @@ class daten_analyse:
         self.range_w = (min(measurements), max(measurements))
 
     def __str__(self):
-        print("=== Analyse der Ergebnisse in",
-                self.filename, "===")
-        print(" - Temperatur:", self.mean_T,
-                "+/-", self.std_T)
-        print("   Wertebereich:", self.range_T[0],
-                "-", self.range_T[1])
-        print(" - Fliessgeschwindigkeit:", self.mean_v,
-                "+/-", self.std_v)
-        print("   Wertebereich:", self.range_v[0],
-                "-", self.range_v[1])
-        print(" - notwendige Tests:", self.mean_n,
-                "+/-", self.std_n)
-        print("   Wertebereich:", self.range_n[0],
-                "-", self.range_n[1])
-        print(" - Messwert:", self.mean_w,
-                "+/-", self.std_w)
-        print("   Wertebereich:", self.range_w[0],
-                "-", self.range_w[1])
+        ret = "=== Analyse der Ergebnisse in "
+        ret += self.filename + " ==="
+        ret += " - Temperatur: " + str(self.mean_T)
+        ret += " +/- " + str(self.std_T) + "\n"
+        ret += "   Wertebereich: " + str(self.range_T[0])
+        ret += " - " + str(self.range_T[1]) + "\n"
+        ret += " - Fliessgeschwindigkeit: " + str(self.mean_v)
+        ret += " +/- " + str(self.std_v) + "\n"
+        ret += "   Wertebereich:" + str(self.range_v[0])
+        ret += " - " + str(self.range_v[1]) + "\n"
+        ret += " - notwendige Tests:" + str(self.mean_n)
+        ret += " +/- " + str(self.std_n) + "\n"
+        ret += "   Wertebereich:" + str(self.range_n[0])
+        ret += " - " + str(self.range_n[1]) + "\n"
+        ret += " - Messwert:" + str(self.mean_w)
+        ret += " +/- " + str(self.std_w) + "\n"
+        ret += "   Wertebereich:" + str(self.range_w[0])
+        ret += " - " + str(self.range_w[1])
+        return ret
 
     def plot_results(self):
+        import matplotlib.pyplot as plt
         pass
-
