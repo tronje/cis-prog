@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+'''
+Heidmann
+Kornblueh
+Krabbe
+'''
 
 from daten_analyse import daten_analyse as da
 
