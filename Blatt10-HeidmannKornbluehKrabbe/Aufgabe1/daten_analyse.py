@@ -53,7 +53,7 @@ class daten_analyse:
 
     def __str__(self):
         ret = "=== Analyse der Ergebnisse in "
-        ret += self.filename + " ==="
+        ret += self.filename + " ===\n"
         ret += " - Temperatur: " + str(self.mean_T)
         ret += " +/- " + str(self.std_T) + "\n"
         ret += "   Wertebereich: " + str(self.range_T[0])
@@ -72,11 +72,72 @@ class daten_analyse:
         ret += " - " + str(self.range_w[1])
         return ret
 
+    def _running_mean(self, l):
+        means = []
+        s = 0
+        for n, value in enumerate(l):
+            s += value
+            means.append(s / (n + 1))
+        return means
+
+    def _running_sterr(self, l, means):
+        sterr = []
+        for n, value in enumerate(l):
+            sq_sum = 0
+            for m in range(n+1):
+                sq_sum += (l[m] - means[n]) ** 2
+            sterr.append((sq_sum ** 0.5) / (n + 1))
+        return sterr
+
     def plot_results(self):
         import matplotlib.pyplot as plt
-        # works okay
-        plt.plot(self.temperatures)
-        plt.title('test')
+
+        indices = [i for i in range(1, self.n_of_runs + 2)]
+
+        # Abbildung 1
+        plt.figure(figsize=(10,10))
+
+        ## temperature plot
+        plt.subplot(311)
+        plt.plot(self.temperatures, "ko")
+        means = self._running_mean(self.temperatures)
+        plt.errorbar(indices,
+                     means,
+                     fmt="r-p",
+                     yerr=self._running_sterr(self.temperatures, means))
+        plt.ylabel("Temperatur (°C)")
+        plt.title('Abbildung 1')
+
+        ## velocity plot
+        plt.subplot(312)
+        plt.plot(self.velocities, "ks")
+        means = self._running_mean(self.velocities)
+        plt.errorbar(indices,
+                     means,
+                     fmt="r-p",
+                     yerr=self._running_sterr(self.velocities, means))
+        plt.ylabel("Flussgeschwindigkeit (cm/s)")
+
+        ## measurement plot
+        plt.subplot(313)
+        plt.plot(self.measurements, "k^")
+        means = self._running_mean(self.measurements)
+        plt.errorbar(indices,
+                     means,
+                     fmt="r-p",
+                     yerr=self._running_sterr(self.measurements, means))
+        plt.ylabel("Messwert")
+        plt.xlabel("# Messung")
+
         plt.grid(True)
-        plt.savefig('test.pdf')
-        plt.show
+        plt.savefig('Abb1.pdf')
+
+        plt.clf()
+
+        # Abbildung 2
+        plt.hist(self.n_of_tests, range(1,7), color="gray")
+        plt.xlabel("Notwendige Tests")
+        plt.ylabel("Anzahl Messungen")
+        plt.title("Abbildung 2")
+        
+        plt.savefig("Abb2.pdf")
