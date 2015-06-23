@@ -17,19 +17,54 @@ class Lgs:
         pass
 
     def istgueltig(self):
-        pass
+        rightSize = True
+        anyFirstPosNotZero = False;
+        returnValue = False
+
+        for x in self.koeffmat:
+            if len(x)  != len(self.koeffmat) + 1:
+                rightSize = False
+
+        for x in self.koeffmat:
+            print(x[0])
+            if x[0] != 0:
+                anyFirstPosNotZero = True
+
+        if rightSize == True and anyFirstPosNotZero == True:
+            returnValue = True
+
+        return returnValue;
 
     def isthomogen(self):
-        pass
+        isthomogen = True;
+
+        for x in self.koeffmat:
+            if x[len(self.koeffmat)] != 0:
+                isthomogen = False
+
+        if self.istgueltig() == True and isthomogen == True:
+            return True
+
+        return False
 
     def isteindeutig(self):
-        pass
+        x = 1
+        for i in range(len(self.koeffmat)):
+            x *= self.koeffmat[i][i]
+        if x == 0 and self.istgueltig() == True:
+            return False
+        return True
 
     def bestimme_loesungsvektor(self):
 
         l =  len(self.koeffmat)
         for i in range(l):
-            for j in range(i+1,l):
+
+            #if first in line is 0 switch with a line where pos 0 is not 0
+            if self.koeffmat[i][0] == 0:
+                print("switch")
+                #TODO: SWITCH IF ...
+            for j in range(i + 1,l):
                 faktor = -1 * self.koeffmat[j][i] / self.koeffmat[i][i]
                 for k in range(i,len(self.koeffmat[0])):
                     print("lol")
@@ -40,14 +75,14 @@ class Lgs:
         for i in range(l):
             self.lsgvektor[i] = self.koeffmat[i][len(self.koeffmat[0]) - 1] 
      
-        pass
-
     def __str__(self):
+        print("")
         pass
 
 def getInput():
     allIsDigit = False
     done = False
+    posOneGrtNull = False;
     number_of_entries_in_line = 0
     number_of_lines = 0
     matrix = []
@@ -85,14 +120,21 @@ def getInput():
                 print("Error: Input has non digit parts")
                 exit()
             matrix[number_of_lines] = [float(elem) for elem in matrix[number_of_lines]]
+            if(matrix[number_of_lines][0] > 0):
+                posOneGrtNull = True
             number_of_lines += 1
+
         #End the loop
         else:
             done = True
 
     if number_of_lines != number_of_entries_in_line  - 1:
         print("cannot generate matrix: line lenght and number of lines differ")
-        exit();
+        exit()
+
+    # if posOneGrtNull == False:
+    #     print("cannot be solved: no line with the needed amount of variables")
+    #     exit()
 
     print("== Input end ==")
 
@@ -101,6 +143,10 @@ def getInput():
 matrix = getInput()
 lgs = Lgs(matrix)
 print(lgs.koeffmat)
-lgs.bestimme_loesungsvektor()
+print(lgs.isthomogen())
+print(lgs.istgueltig())
 print("test")
+lgs.bestimme_loesungsvektor()
+
 print(lgs.lsgvektor)
+print(lgs.koeffmat)
