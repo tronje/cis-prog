@@ -8,7 +8,7 @@ fi
 name=Blatt$1-HeidmannKornbluehKrabbe
 
 echo "Creating tar ball..."
-tar -cf $name.tar $name --exclude=*.pdf
+tar -cf $name.tar $name --exclude=*.pdf --exclude=__pycache__
 
 echo "Gzipping tar ball..."
 gzip -9 -f $name.tar
