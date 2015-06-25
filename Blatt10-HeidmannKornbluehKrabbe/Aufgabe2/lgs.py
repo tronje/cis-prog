@@ -1,20 +1,18 @@
-# '''
-# Heidmann
-# Kornblueh
-# Krabbe
-# '''
+'''
+Heidmann
+Kornblueh
+Krabbe
+'''
 
 import re
 
 p = re.compile(r'[+-]?(\d+(\.\d*)?|\.\d+)([eE][+-]?\d+)?')
 
 class Lgs:
-    # ''' Klasse zum loesen eines linearen Gleichungssystems'''
+    ''' Klasse zum loesen eines linearen Gleichungssystems'''
     def __init__(self, data):
         self.koeffmat = data
         self.lsgvektor = [0 for x in range(len(data))]
-
-        pass
 
     def istgueltig(self):
         rightSize = True
